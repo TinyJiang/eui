@@ -1,0 +1,24 @@
+<table id="{{id}}" class="table table-hover table-{{type}}">
+	<thead>
+		<tr>
+			<th id="{{id}}-check-all" style="text-align:center;width: 50px;">
+				<span class="glyphicon e-checkbox" aria-hidden="true"></span>
+			</th>
+			{{#headers}}
+			<th style="text-align: {{align}};width: {{width}}px;">{{&header}}</th> 
+			{{/headers}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#datas}}
+		<tr id="{{id}}">
+			<td style="text-align:center;" id="{{id}}-check">
+				<span class="glyphicon e-checkbox" aria-hidden="true"></span>
+			</td>
+			{{#columns}}
+			<td id="{{id}}" style="text-align: {{align}}">{{&value}}</td>
+			{{/columns}}
+		</tr>
+		{{/datas}}
+	</tbody>
+</table>

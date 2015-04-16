@@ -1,0 +1,25 @@
+/* ------------common---------------- */
+.e-checkbox:before{
+	content: "\e157";
+}
+
+.sel .e-checkbox:before{
+	content: "\e067";
+}
+/* ------------common---------------- */
+
+/* ------------grid---------------- */
+.euigrid {
+	
+}
+
+.euigrid table td,.euigrid table th{
+	vertical-align: middle!important;
+	cursor: default;
+}
+
+.euigrid table tr.sel td {
+	background-color: #E1E1E1
+}
+
+/* ------------grid---------------- */
