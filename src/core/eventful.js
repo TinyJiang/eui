@@ -1,6 +1,9 @@
 'use strict'
 /**
- * 事件驱动器
+ * 事件驱动器(默认所有组件均加载事件驱动)
+ *
+ * @since 0.1
+ * @author JJF
  */
 define(['eui/utils/exception', 'eui/utils/string'], function(e, string) {
     var events_proto = {

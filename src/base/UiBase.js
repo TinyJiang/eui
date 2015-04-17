@@ -1,6 +1,10 @@
 'use strict'
 /**
  * UI组件基类
+ * 增加绑定dom方法以及show，hide等基础方法
+ *
+ * @since 0.1
+ * @author JJF
  */
 define(['eui/base/Base', 'eui/effects/mask'], function(Base, mask) {
     var UiBase = function() {

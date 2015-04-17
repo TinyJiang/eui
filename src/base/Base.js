@@ -1,6 +1,10 @@
 'use strict'
 /**
  * 所有组件基类
+ * 实例化对象时自动执行_init方法(fire init 事件)，将构造参数会全部传过去
+ * 
+ * @since 0.1
+ * @author JJF
  */
 define(['eui/core/eventful'], function(eventful) {
     var Base = function() {

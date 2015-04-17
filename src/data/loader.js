@@ -3,6 +3,11 @@
  * 数据加载器
  *
  * conf:jquery ajax所有参数 (dataPath:String 数据路径)
+ * @event load 加载数据完成之后触发
+ * @event loaderror 加载数据失败触发
+ *
+ * @since 0.1
+ * @author JJF
  */
 define(['eui/utils/exception', 'eui/base/Base', 'eui/core/register',
     'eui/utils/string'

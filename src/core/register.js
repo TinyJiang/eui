@@ -1,6 +1,12 @@
 'use strict'
 /**
- * 对象注册器 返回create对象方法，并在该方法上绑定register方法供绑定函数参数使用
+ * 对象注册器 返回注册方法，用于在eui主对象上注册组件的方法
+ * 
+ * 内置对象
+ * create。create对象方法
+ *
+ * @since 0.1
+ * @author JJF
  */
 define([], function() {
     var create = function(clz, args) {

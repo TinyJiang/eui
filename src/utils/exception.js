@@ -1,6 +1,9 @@
 'use strict'
 /**
- * 异常处理
+ * 异常处理中心
+ *
+ * @since 0.1
+ * @author JJF
  */
 define(['eui/utils/string'], function(string) {
     var exceptions = {
