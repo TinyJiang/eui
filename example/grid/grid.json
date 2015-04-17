@@ -1,0 +1,40 @@
+{
+	"success" : "true",
+	"message" : "load complete",
+	"data" : [{
+				"id" : "1001",
+				"username" : "root",
+				"fullname" : "管理员",
+				"status" : "true"
+			}, {
+				"id" : "1002",
+				"username" : "root1",
+				"fullname" : "管理员1",
+				"status" : "false"
+			}, {
+				"id" : "1003",
+				"username" : "root2",
+				"fullname" : "管理员2",
+				"status" : "true"
+			}, {
+				"id" : "1004",
+				"username" : "root3",
+				"fullname" : "管理员3",
+				"status" : "true"
+			}, {
+				"id" : "1001",
+				"username" : "root4",
+				"fullname" : "管理员4",
+				"status" : "true"
+			}, {
+				"id" : "1005",
+				"username" : "root5",
+				"fullname" : "管理员5",
+				"status" : "true"
+			}, {
+				"id" : "1006",
+				"username" : "root6",
+				"fullname" : "管理员6",
+				"status" : "true"
+			}]
+}
