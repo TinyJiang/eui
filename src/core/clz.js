@@ -6,7 +6,10 @@
  * @author JJF
  */
 define([], function() {
+
     var clz = {
+        //声明一个类
+        //注：name必须唯一
         define: function(conf) {
             var name = conf.name,
                 preConstructor = conf.preConstructor,

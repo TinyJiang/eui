@@ -8,8 +8,6 @@
  * @author JJF
  */
 define(['eui/base/Base', 'eui/core/clz', 'eui/core/register'], function(Base, clz, register) {
-    var autoGrowCount = 0; //作为每个record的uuid使用,每创建一个record会自动增长1
-
     /** ----------------类定义-----------------* */
 
     var Record = clz.define({
@@ -17,12 +15,8 @@ define(['eui/base/Base', 'eui/core/clz', 'eui/core/register'], function(Base, cl
         parent: Base,
         preConstructor: function(data) {
             this.setData(data);
-            this._bindCache('id', autoGrowCount++);
         },
         proto: {
-            getId: function() {
-                return this._getCache('id')
-            },
             getData: function() {
                 return this._getCache('data')
             },

@@ -1,20 +1,29 @@
 'use strict'
 /**
- * 对象注册器 返回注册方法，用于在eui主对象上注册组件的方法
- *
- * 内置对象
- * create。create对象方法
+ * 在类上增加create和register方法
  *
  * @since 0.1
  * @author JJF
  */
 define([], function() {
+    var instanceNumCache = {}; //缓存instance数目，用于未指定id时生成唯一id
+
     var create = function(clz, args) {
         function F() {
             return clz.apply(this, args);
         }
         F.prototype = clz.prototype;
-        return new F();
+
+        var instance = new F(),
+            index;
+        if (instanceNumCache[clz._class] === undefined) {
+            index = 0;
+        } else {
+            index = instanceNumCache[clz._class] + 1;
+        }
+        instanceNumCache[clz._class] = index;
+        instance._initId(index);
+        return instance;
     }
 
     return function(clz, registerPair) {

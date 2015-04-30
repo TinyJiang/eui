@@ -1,6 +1,6 @@
 'use strict'
 /**
- * String 工具类
+ * String 工具集合
  *
  * @since 0.1
  * @author JJF

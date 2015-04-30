@@ -66,6 +66,16 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
                     cache = {};
                 }
             },
+            _initId: function(index) {
+                var conf = this.getConf(),
+                    id = conf.id;
+                id = id === undefined ? (this._class + index++) : id;
+                conf.id = id;
+                return id
+            },
+            getId: function() {
+                return this.getConf().id;
+            },
             isObjOf: function(clz) {
                 return this.constructor._class == clz._class //鸭子比较－ －
             }

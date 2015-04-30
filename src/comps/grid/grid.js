@@ -176,13 +176,9 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
         }
 
         // 初始化dom
-        var domInit = function(_grid) {
+        var initDom = function(_grid) {
             var dom = _grid.getDom();
             dom.addClass('euigrid');
-        }
-
-        var getId = function(id) {
-            return id === undefined ? ('eui-grid-' + gridIndex++) : id;
         }
 
         /** ----------------类定义-----------------* */
@@ -190,12 +186,10 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             name: 'Grid',
             parent: CompBase,
             preConstructor: function(c) {
-                var me = this,
-                    d = c.dom;
+                var d = c.dom;
                 if (validate(d, c)) {
                     // 初始化conf配置
                     c = $.extend({}, defaultConf, c);
-                    c.id = getId(c.id);
                     if (!utils.isObjOf(c.loader, loader)) {
                         c.loader = loader.create(c.loader);
                     }
@@ -206,7 +200,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 var me = this,
                     c = me.getConf();
                 c.columns = columnGenerate(me);
-                domInit(me);
+                initDom(me);
                 bindEvents(me);
             },
             proto: {
