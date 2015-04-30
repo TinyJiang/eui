@@ -10,10 +10,10 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/utils/exception', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
+define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
         'eui/core/register', 'text!eui/template/grid/template.html'
     ],
-    function(e, loader, CompBase, clz, register, template) {
+    function(e, utils, loader, CompBase, clz, register, template) {
         /** ----------------公共参数、方法-----------------* */
         var gridIndex = 0,
             defaultConf = {
@@ -72,7 +72,7 @@ define(['eui/utils/exception', 'eui/data/loader', 'eui/base/CompBase', 'eui/core
         }
 
         // 渲染数据
-        var renderData = function(_grid, datas) {
+        var renderData = function(_grid, records) {
             var d = _grid.getDom(),
                 conf = _grid.getConf(),
                 columns = conf.columns,
@@ -89,7 +89,7 @@ define(['eui/utils/exception', 'eui/data/loader', 'eui/base/CompBase', 'eui/core
                     align: c.align
                 });
             })
-            $.each(datas, function(i, data) {
+            $.each(records, function(i, record) {
                 var lineid = renderObj.id + '-' + i;
                 var line = {
                     id: lineid,
@@ -97,24 +97,24 @@ define(['eui/utils/exception', 'eui/data/loader', 'eui/base/CompBase', 'eui/core
                 };
                 _grid._bindCache('line', lineid, {
                     lineIndex: i,
-                    lineData: data
+                    lineData: record
                 });
                 $.each(columns, function(j, c) {
                     var cellid = line.id + '-' + j;
                     line.columns.push({
                         id: cellid,
                         value: c
-                            .render(data[c.index]),
+                            .render(record.get(c.index)),
                         align: c.align
                     });
                     _grid._bindCache('cell', cellid, {
                         lineIndex: i,
                         cellIndex: j,
-                        lineData: data,
+                        lineData: record,
                         cellDataIndex: c.index,
-                        cellData: data[c.index]
+                        cellData: record.get(c.index)
                     });
-                })
+                });
                 renderObj.datas.push(line);
             });
             var html = Mustache.render(template, renderObj);
@@ -196,7 +196,9 @@ define(['eui/utils/exception', 'eui/data/loader', 'eui/base/CompBase', 'eui/core
                     // 初始化conf配置
                     c = $.extend({}, defaultConf, c);
                     c.id = getId(c.id);
-                    c.loader = loader.create(c.loader);
+                    if (!utils.isObjOf(c.loader, loader)) {
+                        c.loader = loader.create(c.loader);
+                    }
                 }
                 return [c]
             },

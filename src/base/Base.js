@@ -65,6 +65,9 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
                 } else {
                     cache = {};
                 }
+            },
+            isObjOf: function(clz) {
+                return this.constructor._class == clz._class //鸭子比较－ －
             }
         }
     });

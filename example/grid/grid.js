@@ -1,15 +1,16 @@
 define(['eui/eui'], function(eui) {
+    var loader = eui.loader({
+        url: 'grid.json',
+        timeout: 30000,
+        method: 'GET',
+        dataType: 'json',
+        dataPath: 'data'
+    });
     var grid = eui.grid({
         dom: $('#tb'),
         pagesize: 20,
         multiSel: true,
-        loader: {
-            url: 'grid.json',
-            timeout: 30000,
-            method: 'GET',
-            dataType: 'json',
-            dataPath: 'data'
-        },
+        loader: loader,
         dataIndex: null,
         columns: [{
             header: 'ID',
@@ -35,7 +36,7 @@ define(['eui/eui'], function(eui) {
         }],
         events: {
             init: function() {
-                console.log(1)
+                console.log('grid inited')
             }
         }
     });
@@ -46,5 +47,10 @@ define(['eui/eui'], function(eui) {
     }).on('cellclick', function(data) {
         console.log(data);
     })
-    grid.getLoader().load();
+    loader.load();
+
+
+    $('#getCurrentSel').on('click', function() {
+        console.log(grid.getCurrentSel());
+    });
 })

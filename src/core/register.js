@@ -18,21 +18,20 @@ define([], function() {
     }
 
     return function(clz, registerPair) {
-        var regobj = {
+        $.extend(clz, {
             create: function() { // 直接得到对象方法
                 return create(clz, arguments);
-            }
-        };
-        if (registerPair) {
-            regobj.register = function(proto) { // 注入proto
+            },
+            register: function(proto) { // 给某个class注入proto
+                var me = this;
                 for (var i in registerPair) {
                     if (registerPair[i] === 'create') { // create标志符传入create方法
-                        registerPair[i] = this.create
+                        registerPair[i] = me.create
                     }
                 }
                 $.extend(proto, registerPair);
             }
-        }
-        return regobj
+        });
+        return clz
     }
 })

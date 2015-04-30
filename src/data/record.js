@@ -17,17 +17,17 @@ define(['eui/base/Base', 'eui/core/clz', 'eui/core/register'], function(Base, cl
         parent: Base,
         preConstructor: function(data) {
             this.setData(data);
-            this.bindCache('id', autoGrowCount++);
+            this._bindCache('id', autoGrowCount++);
         },
         proto: {
             getId: function() {
-                return this.getCache('id')
+                return this._getCache('id')
             },
             getData: function() {
-                return this.getCache('data')
+                return this._getCache('data')
             },
             setData: function(data) {
-                this.bindCache('data', data)
+                this._bindCache('data', data)
                 this.fire('setdata', [data])
             },
             get: function(k) {
@@ -40,7 +40,7 @@ define(['eui/base/Base', 'eui/core/clz', 'eui/core/register'], function(Base, cl
                     data = {};
                 }
                 data[k] = v;
-                this.bindCache('data', data)
+                this._bindCache('data', data)
                 this.fire('datachange', [k, v, data])
             }
         }
