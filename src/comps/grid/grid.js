@@ -10,10 +10,10 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/utils/exception', 'eui/data/loader', 'eui/base/UiBase',
+define(['eui/utils/exception', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
         'eui/core/register', 'text!eui/template/grid/template.html'
     ],
-    function(e, loader, UiBase, register, template) {
+    function(e, loader, CompBase, clz, register, template) {
         /** ----------------公共参数、方法-----------------* */
         var gridIndex = 0,
             defaultConf = {
@@ -186,35 +186,41 @@ define(['eui/utils/exception', 'eui/data/loader', 'eui/base/UiBase',
         }
 
         /** ----------------类定义-----------------* */
-        var Grid = function() {
-            UiBase.apply(this, arguments);
-        };
-        $.extend(Grid.prototype, UiBase.prototype, {
-            _init: function(d, c) {
-                var me = this;
+        var Grid = clz.define({
+            name: 'Grid',
+            parent: CompBase,
+            preConstructor: function(c) {
+                var me = this,
+                    d = c.dom;
                 if (validate(d, c)) {
                     // 初始化conf配置
                     c = $.extend({}, defaultConf, c);
                     c.id = getId(c.id);
-                    me._bindDomConf(d, c);
                     c.loader = loader.create(c.loader);
-                    c.columns = columnGenerate(me);
-                    domInit(me);
-                    bindEvents(me);
                 }
+                return [c]
             },
-            getLoader: function() {
-                return this.getConf().loader
+            afterConstructor: function() {
+                var me = this,
+                    c = me.getConf();
+                c.columns = columnGenerate(me);
+                domInit(me);
+                bindEvents(me);
             },
-            getCurrentSel: function() {
-                var currentSel = this._getCache('currentSel'),
-                    sel = [];
-                if (currentSel) {
-                    for (var i in currentSel) {
-                        sel.push(currentSel[i]);
+            proto: {
+                getLoader: function() {
+                    return this.getConf().loader
+                },
+                getCurrentSel: function() {
+                    var currentSel = this._getCache('currentSel'),
+                        sel = [];
+                    if (currentSel) {
+                        for (var i in currentSel) {
+                            sel.push(currentSel[i]);
+                        }
                     }
+                    return sel
                 }
-                return sel
             }
         });
 

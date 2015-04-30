@@ -9,52 +9,55 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/utils/exception', 'eui/base/Base', 'eui/core/register',
-    'eui/utils/string'
-], function(e, Base, register, string) {
-    /** ----------------公共方法-----------------* */
-    var dataFinder = function(paths, data) {
-        if (!paths.length) {
-            return data
+define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record', 'eui/core/register',
+        'eui/utils/string'
+    ],
+    function(e, Base, clz, record, register, string) {
+        /** ----------------公共方法-----------------* */
+        var dataFinder = function(paths, data) {
+            if (!paths.length) {
+                return data
+            }
+            var p = paths.shift();
+            if (data[p]) {
+                return dataFinder(paths, data[p]);
+            } else {
+                return null
+            }
         }
-        var p = paths.shift();
-        if (data[p]) {
-            return dataFinder(paths, data[p]);
-        } else {
-            return null
-        }
-    }
 
-    /** ----------------类定义-----------------* */
-    var Loader = function() {
-        Base.apply(this, arguments);
-    };
-
-    $.extend(Loader.prototype, Base.prototype, {
-        load: function() {
-            var me = this,
-                conf = me.getConf();
-            me.fire('beforeload');
-            $.ajax($.extend({}, conf, {
-                success: function(result, textStatus, jqXHR) {
-                    var data;
-                    if (string.isNotBlank(conf.dataPath)) {
-                        data = dataFinder(conf.dataPath
-                            .split('.'), result);
-                    } else {
-                        data = result;
-                    }
-                    me.fire('load', [data]);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    me.fire('loaderror', []);
-                    e
-                        .throwException('AjaxException',
-                            arguments);
+        /** ----------------类定义-----------------* */
+        var Loader = clz.define({
+            name: 'Loader',
+            parent: Base,
+            proto: {
+                load: function() {
+                    var me = this,
+                        conf = me.getConf();
+                    me.fire('beforeload');
+                    $.ajax($.extend({}, conf, {
+                        success: function(result, textStatus, jqXHR) {
+                            var data;
+                            if (string.isNotBlank(conf.dataPath)) {
+                                data = dataFinder(conf.dataPath
+                                    .split('.'), result);
+                            } else {
+                                data = result;
+                            }
+                            me.fire('load', [data]);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            me.fire('loaderror', []);
+                            e
+                                .throwException('AjaxException',
+                                    arguments);
+                        }
+                    }));
                 }
-            }));
-        }
-    });
+            }
+        });
 
-    return register(Loader)
-});
+        return register(Loader, {
+            loader: 'create'
+        })
+    });

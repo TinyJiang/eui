@@ -1,5 +1,6 @@
 define(['eui/eui'], function(eui) {
-    var grid = eui.grid($('#tb'), {
+    var grid = eui.grid({
+        dom: $('#tb'),
         pagesize: 20,
         multiSel: true,
         loader: {

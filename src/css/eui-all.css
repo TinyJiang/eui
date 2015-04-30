@@ -1,10 +1,47 @@
 /* ------------common---------------- */
+@keyframes around
+{
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+@-moz-keyframes around
+{
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+@-webkit-keyframes around
+{
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+@-o-keyframes around
+{
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
 .e-checkbox:before{
 	content: "\e157";
 }
 
 .sel .e-checkbox:before{
 	content: "\e067";
+}
+
+.eui-mask{
+	width: 100%;
+	text-align: center;
+}
+
+.eui-mask .glyphicon{
+	font-size: 35px;
+}
+
+.eui-mask .glyphicon-refresh{
+	-moz-animation: paround 1.5s linear infinite;
+	-o-animation: around 1.5s linear infinite;
+	animation: around 1.5s linear infinite;
+	-webkit-animation: around 1.5s linear infinite;
 }
 /* ------------common---------------- */
 

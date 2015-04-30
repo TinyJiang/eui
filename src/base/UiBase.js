@@ -1,39 +1,45 @@
 'use strict'
 /**
- * UI组件基类
+ * UI基类
  * 增加绑定dom方法以及show，hide等基础方法
  *
  * @since 0.1
  * @author JJF
  */
-define(['eui/base/Base', 'eui/effects/mask'], function(Base, mask) {
-    var UiBase = function() {
-        Base.apply(this, arguments);
-    };
-    $.extend(UiBase.prototype, Base.prototype, {
-        _init: function(dom, conf) { // 构造函数，需要时重写
-            this._bindDomConf(dom, conf);
+define(['eui/base/Base', 'eui/core/clz'], function(Base, clz) {
+    var UiBase = clz.define({
+        name: 'UiBase',
+        parent: Base,
+        preConstructor: function(conf) {
+            this._bindDom(conf.dom);
         },
-        _bindDomConf: function(dom, conf) {
-            this._bindConf(conf);
-            this._dom = dom;
-            return this
-        },
-        getDom: function() {
-            return this._dom
-        },
-        show: function(animation) {
-            var me = this,
-                d = me.getDom();
-            return me
-        },
-        hide: function(animation) {
-            var me = this,
-                d = me.getDom();
-            return me
-        },
-        destroy: function() {},
-        controlLoadMask: function(isMask) {}
+        proto: {
+            _bindDom: function(dom) {
+                this._dom = dom;
+                return this
+            },
+            getDom: function() {
+                return this._dom
+            },
+            show: function() {
+                var me = this,
+                    d = me.getDom();
+                me.fire('beforeshow');
+                d.removeClass('hide');
+                me.fire('show');
+                return me
+            },
+            hide: function() {
+                var me = this,
+                    d = me.getDom();
+                me.fire('beforehide');
+                d.addClass('hide');
+                me.fire('hide');
+                return me
+            },
+            destroy: function() {}
+        }
     });
+
     return UiBase;
 });
