@@ -30,6 +30,10 @@ define(['eui/utils/exception', 'eui/utils/string'], function(e, string) {
             }
             return me
         },
+        off: function(event_name) {
+            var me = this;
+            me._events[event_name] = [];
+        },
         fire: function(event_name, args) {
             var me = this;
             if (me._events && me._events[event_name]) {

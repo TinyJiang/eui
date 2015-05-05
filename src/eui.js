@@ -4,12 +4,14 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/comps/grid/grid', 'eui/effects/mask', 'eui/data/loader'], function(grid, mask, loader) {
+define(['eui/comps/grid/grid', 'eui/comps/tree/tree', 'eui/comps/tree/treenode', 'eui/effects/mask', 'eui/data/loader'], function(grid, tree, treenode, mask, loader) {
     var eui = function() {};
 
     grid.register(eui.prototype);
     mask.register(eui.prototype);
     loader.register(eui.prototype);
+    tree.register(eui.prototype);
+    treenode.register(eui.prototype);
 
     return new eui();
 });

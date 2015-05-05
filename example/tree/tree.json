@@ -1,0 +1,61 @@
+{
+    "success": "true",
+    "message": "load complete",
+    "data": [{
+        "id": "dept1",
+        "name": "dept1",
+        "fullname": "部门1",
+        "children": [{
+            "id": "user1",
+            "name": "user1",
+            "fullname": "员工1"
+        }, {
+            "id": "user2",
+            "name": "user2",
+            "fullname": "员工2"
+        }, {
+            "id": "user3",
+            "name": "user3",
+            "fullname": "员工3"
+        }, {
+            "id": "user4",
+            "name": "user4",
+            "fullname": "员工4"
+        }]
+    }, {
+        "id": "dept2",
+        "name": "dept2",
+        "fullname": "部门2",
+        "children": [{
+            "id": "user5",
+            "name": "user5",
+            "fullname": "员工5",
+            "children": [{
+                "id": "attr1",
+                "name": "attr1",
+                "fullname": "属性1"
+            }, {
+                "id": "attr2",
+                "name": "attr2",
+                "fullname": "属性2"
+            }]
+        }, {
+            "id": "user6",
+            "name": "user6",
+            "fullname": "员工6"
+        }, {
+            "id": "user7",
+            "name": "user7",
+            "fullname": "员工7"
+        }, {
+            "id": "user8",
+            "name": "user8",
+            "fullname": "员工8"
+        }]
+    }, {
+        "id": "dept3",
+        "name": "dept3",
+        "fullname": "部门3",
+        "leaf": true
+    }]
+}

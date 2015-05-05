@@ -19,6 +19,9 @@ define([], function() {
             var C = function() {
                 var args = arguments,
                     tmpArgs;
+                if (!this._class) {
+                    this._class = name;
+                }
                 if ($.type(preConstructor) == 'function') {
                     tmpArgs = preConstructor.apply(this, args);
                     args = tmpArgs ? tmpArgs : args;
@@ -32,8 +35,6 @@ define([], function() {
                     tmpArgs = afterConstructor.apply(this, args);
                     args = tmpArgs ? tmpArgs : args;
                 }
-
-                this._class = name;
             }
 
             $.extend(C.prototype, ($.type(parent) == 'function') ? parent.prototype : {}, proto);
@@ -41,6 +42,13 @@ define([], function() {
             C._class = name;
 
             return C
+        },
+        clone: function(obj, extensionConf) {
+            var o;
+            if (obj) {
+                o = obj.constructor.create($.extend({}, obj.getConf(), extensionConf));
+            }
+            return o
         }
     };
 

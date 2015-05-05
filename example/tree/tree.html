@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="../../lib/jquery/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="../../lib/mustache/mustache.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../lib/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../../lib/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="../../src/css/eui-all.css">
+	<script type="text/javascript" src="../../lib/requirejs/require.js" data-main="tree"></script>
+	<script type="text/javascript">
+		require.config({
+			paths : {
+				'eui' : '../../src',
+				'text':'../../lib/requirejs/plugins/text'//text plugin
+			}
+		});
+	</script>
+	<title>TREE TEST</title>
+	<style>
+		.tb {
+			width: 500px;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="tb" class="tb"></div>
+		</div>
+
+		
+	</div>
+</body>
+</html>

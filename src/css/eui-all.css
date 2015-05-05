@@ -29,8 +29,9 @@
 }
 
 .eui-mask{
-	width: 100%;
 	text-align: center;
+	position: absolute;
+	background: #fff;
 }
 
 .eui-mask .fa-spinner{
@@ -39,6 +40,10 @@
 	-o-animation: around 2s linear infinite;
 	animation: around 2s linear infinite;
 	-webkit-animation: around 2s linear infinite;
+}
+
+.eui-cursor-pointer{
+	cursor: pointer
 }
 /* ------------common---------------- */
 
@@ -57,3 +62,105 @@
 }
 
 /* ------------grid---------------- */
+
+
+
+/* ------------true---------------- */
+.euitree{
+	padding: 5px;
+	overflow: auto;
+}
+
+.euitree .euitree-inner-cnt{
+}
+
+.euitree .treenode{
+}
+
+.euitree .label-cnt:hover{
+	background: #eee;
+}
+
+.euitree .label-cnt{
+	padding:3px;
+}
+
+.euitree .treenode-selected > .label-cnt{
+	background: #ddd;
+}
+
+.euitree .label-cnt > i {
+	font-family: FontAwesome;
+	font-weight: normal;
+  	font-style: normal;
+	margin-right: 5px;
+	font-size: 14px;
+}
+
+.euitree .children-cnt{
+	padding-left: 13px;
+  	margin: 0px 7px;
+  	border-left: 1px dashed #ccc;
+}
+
+.euitree .treenode-collapsed > .treenode-label-folder > .expand-icon:before{
+	content: "\f067";
+}
+
+.euitree .treenode-expanded > .treenode-label-folder > .expand-icon:before{
+	content: "\f068";
+}
+
+.euitree .treenode-loading > .treenode-label-folder > .expand-icon{
+	-moz-animation: paround 2s linear infinite;
+	-o-animation: around 2s linear infinite;
+	animation: around 2s linear infinite;
+	-webkit-animation: around 2s linear infinite;
+}
+
+.euitree .treenode-loading > .treenode-label-folder > .expand-icon:before{
+	content: "\f110";
+}
+
+.euitree .treenode-label-file > .expand-icon:before{
+	content: "\f068";
+	color: transparent;
+}
+
+.euitree .treenode-expanded > .treenode-label-folder > .node-symbol:before{
+	content: "\f115";
+}
+
+.euitree .treenode-collapsed > .treenode-label-folder > .node-symbol:before{
+	content: "\f114";
+}
+
+.euitree .treenode-label-file > .node-symbol:before{
+	content: "\f016";
+}
+
+.euitree .treenode-expanded > .children-cnt{
+	display: block;
+}
+
+.euitree .treenode-collapsed > .children-cnt{
+	display: none;
+}
+
+.euitree .node-check{
+	display: none;
+}
+
+.euitree .treenode-multiSel .node-check{
+	display: inline;
+}
+
+.euitree .node-check:before{
+	content: "\f096";
+}
+
+.euitree .treenode-selected >.label-cnt > .node-check:before{
+	content: "\f046";
+}
+
+/* ------------true---------------- */

@@ -23,13 +23,18 @@ define(['eui/utils/exception', 'eui/base/UiBase', 'eui/core/clz', 'eui/core/regi
 
         //创建mask的dom对象
         var createMaskDom = function(cnt, config) {
-            var cHeight = cnt.height(),
+            var cHeight = cnt.outerHeight(),
+                cWidth = cnt.outerWidth(),
+                pos = cnt.position(),
                 template = TYPES[config.type],
                 dom;
             if (template) {
                 dom = $(Mustache.render(template, config));
                 dom.css({
-                    'height': cHeight + 'px',
+                    width: cWidth + 'px',
+                    height: cHeight + 'px',
+                    left: pos.left + 'px',
+                    top: pos.top + 'px',
                     'line-height': cHeight + 'px'
                 })
                 return dom

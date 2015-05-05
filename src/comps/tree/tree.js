@@ -6,15 +6,50 @@
  * @event select(nodeRecord) 选中
  * @event unselect(nodeRecord) 取消选中
  * @event nodeclick(nodeRecord)单击node
- * @event expand(nodeRecord)展开node
+ * @event expandNode(nodeRecord)展开node
  * @event collapseNode(nodeRecord)收缩node
  *
  * @since 0.1
  * @author JJF
  */
-define(['eui/core/clz', 'eui/base/CompBase', 'eui/data/loader', 'eui/core/register'],
-    function(clz, CompBase, loader, register) {
+define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader', 'eui/core/register', 'eui/comps/tree/treenode', 'text!eui/template/tree/tree.html'],
+    function(clz, CompBase, utils, loader, register, treenode, template) {
         /** ----------------公共参数、方法-----------------* */
+        var defaultConf = {
+                labelIndex: 'label',
+                showRoot: false,
+                multiSel: false,
+                autoExpand: false,
+                root: {
+                    label: 'root'
+                }
+            },
+            CACHE_KEYS = {
+                SELECTIONS: 'SELECTIONS'
+            };
+
+        //获取node相关配置
+        var getNodeConf = function(_tree) {
+            var conf = _tree.getConf();
+            return {
+                labelIndex: conf.labelIndex,
+                autoExpand: conf.autoExpand,
+                multiSel: conf.multiSel,
+                tree: _tree,
+                events: {
+                    expand: function(node) {
+                        _tree.fire('expandNode', [node]);
+                    },
+                    collapse: function(node) {
+                        _tree.fire('collapseNode', [node]);
+                    },
+                    select: function(node) {
+                        _tree.fire('selectNode', [node]);
+                    }
+                }
+            }
+        };
+
         // 初始化dom
         var initDom = function(_tree) {
             var dom = _tree.getDom();
@@ -23,24 +58,31 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/data/loader', 'eui/core/regist
 
         // 渲染数据
         var renderData = function(_tree, records) {
-            var d = _grid.getDom(),
-                conf = _grid.getConf(),
-                columns = conf.columns,
-                renderObj = {
-                    id: conf.id,
-                    type: conf.type,
-                    headers: [],
-                    datas: []
-                };
+            var d = _tree.getDom(),
+                conf = getNodeConf(_tree),
+                root = conf.root;
 
-            d.empty().append($(html));
+            var treeInner = $(Mustache.render(template, {
+                id: _tree.getId()
+            }));
+
+            $.each(records, function(i, record) {
+                var node = treenode.create($.extend({}, conf, {
+                    record: record
+                }));
+                treeInner.append(node.getDom());
+            });
+
+
+            d.empty().append(treeInner);
         }
 
         // 绑定事件
         var bindEvents = function(_tree) {
             // 逻辑事件
             var c = _tree.getConf(),
-                loader = c.loader;
+                loader = c.loader,
+                lazyLoader = c.lazyLoader; //懒加载器,供treenode调用
             loader.on('beforeload', function() {
                 _tree.controlLoadMask(true);
             });
@@ -49,7 +91,6 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/data/loader', 'eui/core/regist
             });
 
             // ui事件
-            var d = _grid.getDom();
         }
 
 
@@ -63,15 +104,38 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/data/loader', 'eui/core/regist
                 if (!utils.isObjOf(c.loader, loader)) {
                     c.loader = loader.create(c.loader);
                 }
+                c.lazyLoader = clz.clone(c.loader);
+                c = $.extend({}, defaultConf, c);
                 return [c]
             },
             afterConstructor: function() {
                 var me = this,
                     c = me.getConf();
-                domInit(me);
+                initDom(me);
                 bindEvents(me);
             },
-            proto: {}
+            proto: {
+                getSelection: function() {
+                    var cache = this._getCache(CACHE_KEYS.SELECTIONS),
+                        sels = [];
+                    if (cache) {
+                        for (var i in cache) {
+                            sels.push(cache[i]);
+                        }
+                    }
+                    return sels
+                },
+                _addSelection: function(node) {
+                    this._bindCache(CACHE_KEYS.SELECTIONS, node.getId(), node);
+                },
+                _removeSelection: function(node) {
+                    this._unbindCache(CACHE_KEYS.SELECTIONS, node.getId());
+                },
+                _clearSelection: function() {
+                    this._bindCache(CACHE_KEYS.SELECTIONS, {});
+                    this.getDom().find('.treenode-selected').removeClass('treenode-selected');
+                }
+            }
         });
 
         return register(Tree, {

@@ -10,19 +10,20 @@ define([], function() {
 
     var create = function(clz, args) {
         function F() {
+            var index;
+            if (instanceNumCache[clz._class] === undefined) {
+                index = 0;
+            } else {
+                index = instanceNumCache[clz._class] + 1;
+            }
+            instanceNumCache[clz._class] = index;
+            this.__index = index;
+
             return clz.apply(this, args);
         }
         F.prototype = clz.prototype;
 
-        var instance = new F(),
-            index;
-        if (instanceNumCache[clz._class] === undefined) {
-            index = 0;
-        } else {
-            index = instanceNumCache[clz._class] + 1;
-        }
-        instanceNumCache[clz._class] = index;
-        instance._initId(index);
+        var instance = new F();
         return instance;
     }
 

@@ -11,7 +11,7 @@
  * @author JJF
  */
 define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
-        'eui/core/register', 'text!eui/template/grid/template.html'
+        'eui/core/register', 'text!eui/template/grid/grid.html'
     ],
     function(e, utils, loader, CompBase, clz, register, template) {
         /** ----------------公共参数、方法-----------------* */

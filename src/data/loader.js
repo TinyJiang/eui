@@ -85,6 +85,11 @@ define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record
                                     arguments);
                         }
                     }));
+                },
+                updateParam: function(param) {
+                    var me = this,
+                        conf = me.getConf();
+                    conf.data = $.extend({}, conf.data, param);
                 }
             }
         });

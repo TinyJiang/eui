@@ -12,6 +12,7 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
         preConstructor: function(conf) {
             var me = this;
             me._bindConf(conf);
+            me._initId();
             me._initEvents();
             me.fire('init');
         },
@@ -66,10 +67,11 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
                     cache = {};
                 }
             },
-            _initId: function(index) {
+            _initId: function() {
                 var conf = this.getConf(),
-                    id = conf.id;
-                id = id === undefined ? (this._class + index++) : id;
+                    id = conf.id,
+                    index = this.__index;
+                id = (id === undefined || id == '') ? (this._class + index) : id;
                 conf.id = id;
                 return id
             },
