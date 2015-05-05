@@ -8,10 +8,11 @@ eui是`事件驱动`的bootstrap前端组件库。
 > * mustache
 
 [API文档库](http://10.8.132.221:8090/display/BASEFRAME01/eui)
---------------
+
+---
 
 
-##HOW TO USE
+## HOW TO USE
 1. 在jsp中依次加入增加jquery，bootstrap，fontawesome，eui依赖
 2. 定义data－main的js路径
 3. 入口js中eui引用id为"eui/eui"
