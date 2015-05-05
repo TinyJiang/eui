@@ -30,9 +30,7 @@ eui是`事件驱动`的bootstrap前端组件库。
 <%@ include file="/common/lib.jsp"%>
 <%@ include file="/common/bootstrap.jsp"%>
 <%@ include file="/common/fontawesome/fontawesome4.3.0.jsp"%>
-<link rel="stylesheet" type="text/css" href="${jslib}/eui/0.1/eui-all.css"></link>
-<script type="text/javascript"
-	src="${ctx}/static/jslib/mustache.js-2.0.0/mustache.min.js"></script>
+<%@ include file="/common/eui.jsp"%>
 <c:set var="mainJs" value="${ctx}/tree" />
 <%@ include file="/common/require.jsp"%>
 <style type="text/css">
@@ -73,7 +71,7 @@ define(['eui/eui'], function(eui) {
     }).on('collapseNode', function(node) {
         console.log(node);
     }).on('selectNode', function(node) {
-       node.getRecord().set('fullname', 'hahahahahahaha');
+       //node.getRecord().set('fullname', 'hahahahahahaha');
     })
 
     loader.load();
