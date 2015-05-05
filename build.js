@@ -2,7 +2,7 @@
     baseUrl: 'src',
     paths: {
         'eui': '',
-        'text': 'plugins/text'
+        'text': '../lib/requirejs/plugins/text'
     },
     name: "eui/eui",
     out: "dist/eui.js"

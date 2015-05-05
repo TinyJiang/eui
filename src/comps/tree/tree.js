@@ -25,7 +25,8 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 }
             },
             CACHE_KEYS = {
-                SELECTIONS: 'SELECTIONS'
+                SELECTIONS: 'SELECTIONS',
+                NODES: 'NODES'
             };
 
         //获取node相关配置
@@ -60,7 +61,8 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
         var renderData = function(_tree, records) {
             var d = _tree.getDom(),
                 conf = getNodeConf(_tree),
-                root = conf.root;
+                root = conf.root,
+                nodes = [];
 
             var treeInner = $(Mustache.render(template, {
                 id: _tree.getId()
@@ -71,9 +73,10 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                     record: record
                 }));
                 treeInner.append(node.getDom());
+                nodes.push(node);
             });
 
-
+            _tree._bindCache(CACHE_KEYS.NODES, nodes);
             d.empty().append(treeInner);
         }
 
@@ -125,6 +128,9 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                     }
                     return sels
                 },
+                getNodes: function() {
+                    return this._getCache(CACHE_KEYS.NODES)
+                },
                 _addSelection: function(node) {
                     this._bindCache(CACHE_KEYS.SELECTIONS, node.getId(), node);
                 },
@@ -132,8 +138,11 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                     this._unbindCache(CACHE_KEYS.SELECTIONS, node.getId());
                 },
                 _clearSelection: function() {
+                    var sels = this.getSelection();
+                    $.each(sels, function(i, node) {
+                        node.setChecked(false);
+                    })
                     this._bindCache(CACHE_KEYS.SELECTIONS, {});
-                    this.getDom().find('.treenode-selected').removeClass('treenode-selected');
                 }
             }
         });

@@ -8,18 +8,18 @@ define(['eui/eui'], function(eui) {
     });
     var tree = eui.tree({
         dom: $('#tb'),
-        multiSel: false,
+        multiSel: true,
         labelIndex: 'fullname',
         autoExpand: true,
         loader: loader
     });
 
     tree.on('expandNode', function(node) {
-        console.log(node);
+        node.getRecord().set('checked', true);
     }).on('collapseNode', function(node) {
         console.log(node);
     }).on('selectNode', function(node) {
-        node.getRecord().set('fullname', 'hahahahahahaha');
+        // node.getRecord().set('fullname', 'hahahahahahaha');
     })
 
     loader.load();

@@ -6,6 +6,7 @@
  * @event expand(treenode)展开
  * @event collapse(treenode)收缩
  * @event select(treenode)选中
+ * @event unselect(treenode)取消选中
  *
  * @since 0.1
  * @author JJF
@@ -14,7 +15,8 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
     function(UiBase, utils, clz, record, register, template) {
         /** ----------------公共参数、方法-----------------* */
         var CACHE_KEYS = {
-            CHILDREN: 'CHILDREN'
+            CHILDREN: 'CHILDREN',
+            CHECK_FLAG: 'CHECK_FLAG'
         };
         var initDom = function(node) {
             var c = node.getConf(),
@@ -64,19 +66,7 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                 if (target.hasClass('expand-icon') && !node.isLeaf) { //点击展开收缩按钮，则执行展开或者收缩操作
                     node.tonggle();
                 } else {
-                    if (c.multiSel) {
-                        if (d.hasClass('treenode-selected')) {
-                            d.removeClass('treenode-selected');
-                            tree._removeSelection(node);
-                        } else {
-                            d.addClass('treenode-selected');
-                            tree._addSelection(node);
-                        }
-                    } else {
-                        tree._clearSelection();
-                        d.addClass('treenode-selected');
-                    }
-                    node.fire('select', [node])
+                    node.setChecked(!node.isChecked());
                 }
                 return false
             });
@@ -85,9 +75,11 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                 if (k === c.labelIndex) {
                     d.children('.label-cnt').children('span').html(v);
                 }
+                if (k === 'checked' && (v === true || v === 'true')) {
+                    node.setChecked(true);
+                }
             });
         };
-
 
         /** ----------------类定义-----------------* */
         var TreeNode = clz.define({
@@ -125,6 +117,28 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                 },
                 getRecord: function() {
                     return this.getConf().record;
+                },
+                isChecked: function() {
+                    return !!this._getCache(CACHE_KEYS.CHECK_FLAG)
+                },
+                setChecked: function(flag) {
+                    var me = this,
+                        d = me.getDom(),
+                        c = me.getConf(),
+                        tree = c.tree;
+                    if (flag) {
+                        if (!c.multiSel) {
+                            tree._clearSelection();
+                        }
+                        d.addClass('treenode-selected');
+                        tree._addSelection(me);
+                    } else {
+                        tree._removeSelection(me);
+                        d.removeClass('treenode-selected');
+                    }
+
+                    me._bindCache(CACHE_KEYS.CHECK_FLAG, flag);
+                    me.fire(flag ? 'select' : 'unselect', [me])
                 },
                 expand: function() {
                     var me = this,
