@@ -11,6 +11,9 @@ eui是`事件驱动`的bootstrap前端组件库。
 
 ---
 
+## bug或者features
+在[ISSUES](http://10.8.132.221:9090/baseframe/eui/issues)提交问题。
+
 
 ## HOW TO USE
 1. 在jsp中依次加入增加jquery，bootstrap，fontawesome，eui依赖
