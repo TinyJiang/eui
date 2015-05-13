@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="../../lib/bootstrap/js/bootstrap.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../lib/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="../../src/css/eui-all.css">
-	<script type="text/javascript" src="../../lib/requirejs/require.js" data-main="grid"></script>
+	<script type="text/javascript" src="../../lib/requirejs/require.js" data-main="form"></script>
 	<script type="text/javascript">
 		require.config({
 			paths : {
@@ -16,25 +16,16 @@
 			}
 		});
 	</script>
-	<title>GRID TEST</title>
+	<title>FORM TEST</title>
 	<style>
-		#tb {
-			width: 500px;
-			height: 300px;
-		}
-		#paging {
-			width: 500px;
-		}
+
 	</style>
 </head>
 <body>
 	<div class="container-fluid">
-		<div class="row">
-			<div id="tb"></div>
-			<div id="paging"></div>
+		<div class="row" style="text-align:center">
+			<div id="combo"></div>
 		</div>
-
-		<button id="getCurrentSel">getCurrentSel</button>
 	</div>
 </body>
 </html>

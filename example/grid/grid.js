@@ -4,14 +4,18 @@ define(['eui/eui'], function(eui) {
         timeout: 30000,
         method: 'GET',
         dataType: 'json',
-        dataPath: 'data'
+        dataPath: 'data.data'
+    });
+    var paging = eui.paging({
+        dom: $('#paging'),
+        pagesize: 20,
+        totalPath: 'data.total',
+        loader: loader
     });
     var grid = eui.grid({
         dom: $('#tb'),
-        pagesize: 20,
         multiSel: true,
         loader: loader,
-        dataIndex: null,
         columns: [{
             header: 'ID',
             index: 'id',
@@ -47,7 +51,10 @@ define(['eui/eui'], function(eui) {
     }).on('cellclick', function(data) {
         console.log(data);
     })
-    loader.load();
+    loader.load({
+        start: 0,
+        limit: 20
+    });
 
 
     $('#getCurrentSel').on('click', function() {

@@ -6,7 +6,7 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
+define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful'], function(clz, utils, eventful) {
     var Base = clz.define({
         name: 'Base',
         preConstructor: function(conf) {
@@ -32,7 +32,7 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
             },
             _bindCache: function(type, id, data) {
                 var cache = this._getCacheObj()[type];
-                if (!cache) {
+                if (utils.isUndefined(cache)) {
                     cache = {};
                 }
                 if (data === undefined) { //2个参数时，id为data，直接把type类型的cache设置为data
@@ -45,14 +45,14 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
             },
             _unbindCache: function(type, id) {
                 var cache = this._getCacheObj()[type];
-                if (cache) {
+                if (utils.isDefined(cache)) {
                     delete(cache[id])
                 }
             },
             _getCache: function(type, id) {
                 var cache = this._getCacheObj()[type];
-                if (cache) {
-                    if (id && id.length) {
+                if (utils.isDefined(cache)) {
+                    if (utils.isDefined(id) && id.length) {
                         return cache[id]
                     } else {
                         return cache
@@ -61,7 +61,7 @@ define(['eui/core/clz', 'eui/core/eventful'], function(clz, eventful) {
             },
             _clearCache: function(type) {
                 var cache = this._getCacheObj();
-                if (type && type.length) {
+                if (utils.isDefined(type) && type.length) {
                     cache[type] = {};
                 } else {
                     cache = {};

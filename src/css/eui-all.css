@@ -20,12 +20,17 @@
 	to {transform:rotate(360deg);}
 }
 
+.e-checkbox{
+	font-family: FontAwesome;
+	font-style: normal;
+}
+
 .e-checkbox:before{
-	content: "\e157";
+	content: "\f096";
 }
 
 .sel .e-checkbox:before{
-	content: "\e067";
+	content: "\f046";
 }
 
 .eui-mask{
@@ -43,7 +48,11 @@
 }
 
 .eui-cursor-pointer{
-	cursor: pointer
+	cursor: pointer;
+	-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 /* ------------common---------------- */
 
@@ -65,7 +74,7 @@
 
 
 
-/* ------------true---------------- */
+/* ------------tree---------------- */
 .euitree{
 	padding: 5px;
 	overflow: auto;
@@ -163,4 +172,70 @@
 	content: "\f046";
 }
 
-/* ------------true---------------- */
+/* ------------tree---------------- */
+
+.euipaging{}
+
+.euipaging li.disabled a,.euipaging-disabled li a{
+	color: #C8D0D8;
+	cursor: not-allowed;
+}
+
+.euipaging .pagination > li{
+	position: relative;
+	float: left;
+}
+
+.euipaging .pagination > li.open .dropdown-menu{
+	display: block;
+	max-height: 140px;
+  	overflow-y: auto;
+}
+
+.euipaging .dropdown-menu{
+	width: 100%;
+	min-width: 10px;
+}
+
+.euipaging .dropdown-menu > li > a{
+	text-align: center;
+}
+
+/* ------------combo---------------- */
+.eui-combo .input-group-btn{
+	text-align: center;
+}
+
+.eui-combo .input-group-btn > button{
+	width: 100%;
+	text-align: left;
+}
+
+.eui-combo .input-group-btn > button .caret{
+	float: right;
+  	margin-top: 9px;
+}
+
+.eui-combo .input-group-btn .current-label{
+	display: inline-block;
+	height: 17px;
+	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+}
+
+
+.eui-combo .input-group-btn > ul{
+	width: 100%;
+}
+.eui-combo .input-group-btn > ul > li > a > i {
+	display: none;
+}
+
+.eui-combo .input-group-btn > ul > li > a > span {
+	margin-left: 10px;
+}
+
+.eui-combo .input-group-btn > ul.multi > li > a > i {
+	display: inline;
+}

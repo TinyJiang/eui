@@ -3,6 +3,7 @@ define(['eui/eui'], function(eui) {
         url: 'tree.json',
         timeout: 30000,
         method: 'GET',
+        autoLoad: true,
         dataType: 'json',
         dataPath: 'data'
     });
@@ -21,6 +22,4 @@ define(['eui/eui'], function(eui) {
     }).on('selectNode', function(node) {
         // node.getRecord().set('fullname', 'hahahahahahaha');
     })
-
-    loader.load();
 })

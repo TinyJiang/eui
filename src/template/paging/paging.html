@@ -1,0 +1,32 @@
+<nav class="{{disabled}}">
+  <ul class="pagination">
+    <li name="start" class="{{startDisabled}}">
+      <a class="eui-cursor-pointer " aria-label="Start">
+        <i class="fa fa-step-backward"></i>
+      </a>
+    </li>
+    <li name="previous" class="{{previousDisabled}}">
+      <a class="eui-cursor-pointer" aria-label="Previous">
+        <i class="fa fa-chevron-left"></i>
+      </a>
+    </li>
+    <li name="select" class="{{selectDisabled}}">
+          <a class="eui-cursor-pointer dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span name="current">{{current}}</span> / <span name="total">{{pageNum}}</span> <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            {{#pages}}
+            <li class="euipaging-selector" name="{{no}}"><a class="eui-cursor-pointer" >{{no}}</a></li>
+            {{/pages}}
+          </ul>
+    </li>
+    <li name="next" class="{{nextDisabled}}">
+      <a class="eui-cursor-pointer" aria-label="Next">
+        <i class="fa fa-chevron-right"></i>
+      </a>
+    </li>
+    <li name="end" class="{{endDisabled}}">
+      <a class="eui-cursor-pointer" aria-label="End">
+        <i class="fa fa-step-forward"></i>
+      </a>
+    </li>
+  </ul>
+</nav>

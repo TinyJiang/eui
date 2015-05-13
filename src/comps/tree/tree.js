@@ -107,7 +107,9 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 if (!utils.isObjOf(c.loader, loader)) {
                     c.loader = loader.create(c.loader);
                 }
-                c.lazyLoader = clz.clone(c.loader);
+                c.lazyLoader = clz.clone(c.loader, {
+                    autoLoad: false
+                });
                 c = $.extend({}, defaultConf, c);
                 return [c]
             },
