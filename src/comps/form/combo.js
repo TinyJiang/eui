@@ -58,24 +58,30 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
 
     var tonggleSel = function(_combo, v) {
         var vals = _combo._getCache(CACHE_KEYS.CURRENT_VALUE),
+            c = _combo.getConf(),
             loader = _combo.getConf().loader,
             _vals = [];
-        if (!vals) {
-            vals = {};
-        }
-
-        if (vals[v] !== undefined) {
-            delete(vals[v])
-        } else {
-            vals[v] = loader.getRecordByIndex(_combo.getConf().valueField, v)
-        }
-
-        for (var i in vals) {
-            if (vals.hasOwnProperty(i)) {
-                _vals.push(i);
+        if (c.multiSel) {
+            if (!vals) {
+                vals = {};
             }
+
+            if (vals[v] !== undefined) {
+                delete(vals[v])
+            } else {
+                vals[v] = loader.getRecordByIndex(_combo.getConf().valueField, v)
+            }
+
+            for (var i in vals) {
+                if (vals.hasOwnProperty(i)) {
+                    _vals.push(i);
+                }
+            }
+        } else {
+            _vals = [v];
         }
         _combo.setValue(_vals);
+        _combo.fire('select', [v, _vals]);
     }
 
     var renderData = function(_combo, records) {
