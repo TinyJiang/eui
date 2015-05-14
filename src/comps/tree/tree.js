@@ -61,7 +61,6 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
         var renderData = function(_tree, records) {
             var d = _tree.getDom(),
                 conf = getNodeConf(_tree),
-                root = conf.root,
                 nodes = [];
 
             var treeInner = $(Mustache.render(template, {
@@ -84,8 +83,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
         var bindEvents = function(_tree) {
             // 逻辑事件
             var c = _tree.getConf(),
-                loader = c.loader,
-                lazyLoader = c.lazyLoader; //懒加载器,供treenode调用
+                loader = c.loader;
             loader.on('beforeload', function() {
                 _tree.controlLoadMask(true);
             });
@@ -103,7 +101,6 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
             name: 'Tree',
             parent: CompBase,
             preConstructor: function(c) {
-                var d = c.dom;
                 if (!utils.isObjOf(c.loader, loader)) {
                     c.loader = loader.create(c.loader);
                 }
@@ -113,11 +110,11 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 c = $.extend({}, defaultConf, c);
                 return [c]
             },
-            afterConstructor: function() {
-                var me = this,
-                    c = me.getConf();
+            afterConstructor: function(c) {
+                var me = this;
                 initDom(me);
                 bindEvents(me);
+                return [c]
             },
             proto: {
                 getSelection: function() {

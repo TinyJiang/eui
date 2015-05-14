@@ -37,7 +37,11 @@ define(['eui/base/Base', 'eui/core/clz'], function(Base, clz) {
                 me.fire('hide');
                 return me
             },
-            destroy: function() {}
+            destroy: function() {
+                console.log(1)
+                this.getDom().remove();
+                this.callSuper(Base, 'destroy');
+            }
         }
     });
 

@@ -17,28 +17,43 @@ define([], function() {
                 proto = conf.proto;
             var C = function() {
                 var args = arguments,
+                    me = this,
                     tmpArgs;
-                if (!this._class) {
-                    this._class = name;
+                if (!me._class) {
+                    me._class = name;
                 }
                 if ($.type(preConstructor) == 'function') {
-                    tmpArgs = preConstructor.apply(this, args);
+                    tmpArgs = preConstructor.apply(me, args);
                     args = tmpArgs ? tmpArgs : args;
                 }
                 if ($.type(parent) == 'function') {
-                    tmpArgs = parent.apply(this, args);
+                    tmpArgs = parent.apply(me, args);
                     args = tmpArgs ? tmpArgs : args;
                 }
 
                 if ($.type(afterConstructor) == 'function') {
-                    tmpArgs = afterConstructor.apply(this, args);
+                    tmpArgs = afterConstructor.apply(me, args);
                     args = tmpArgs ? tmpArgs : args;
+                }
+
+                me.callSuper = function(name, args, clz) {
+                    var p = clz ? clz._parent : C._parent,
+                        fn;
+                    if (!p) {
+                        return
+                    }
+                    // fn = p.prototype[name];
+                    // if ($.type(fn) == 'function') {
+                    //     fn.apply(me, args);
+                    //     me.callSuper(name, args, p);
+                    // }
                 }
             }
 
             $.extend(C.prototype, ($.type(parent) == 'function') ? parent.prototype : {}, proto);
 
             C._class = name;
+            C._parent = parent;
 
             return C
         },

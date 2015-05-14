@@ -224,6 +224,7 @@
 	white-space: nowrap;
   	overflow: hidden;
   	text-overflow: ellipsis;
+  	width: calc(100% - 50px)
 }
 
 
@@ -243,9 +244,16 @@
 }
 
 
-/* ------------combo---------------- */
+/* ------------datetime---------------- */
 .eui-datetime > input{
 	cursor: pointer!important;
 	background: #fff!important;
 }
 
+/* ------------window---------------- */
+
+.eui-window .modal-content{
+}
+
+.eui-window .modal-content > .modal-body{
+}

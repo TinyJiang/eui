@@ -101,7 +101,6 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             });
         });
         d.empty().append(utils.renderTpl(template, renderObj));
-        d.find('.current-label').width(d.width() - 50);
     }
 
 

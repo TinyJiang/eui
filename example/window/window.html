@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../lib/mustache/mustache.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../lib/bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="../../lib/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../lib/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="../../src/plugin/datetimepicker/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="../../src/css/eui-all.css">
+	<script type="text/javascript" src="../../lib/requirejs/require.js" data-main="window"></script>
+	<script type="text/javascript">
+		require.config({
+			paths : {
+				'eui' : '../../src',
+				'text':'../../lib/requirejs/plugins/text',//text plugin
+				'datetimepicker':'../../src/plugin/datetimepicker/bootstrap-datetimepicker',
+				'moment':'../../src/plugin/moment/moment-with-locales.min'
+			}
+		});
+	</script>
+	<title>WINDOW TEST</title>
+	<style>
+
+	</style>
+</head>
+<body>
+	<div class="container">
+    <div class="row">
+        <button class="btn btn-primary" id="btn">Open Window</button>
+        <button class="btn btn-primary" id="destroy">Destroy Window</button>
+    </div>
+</div>
+</body>
+</html>

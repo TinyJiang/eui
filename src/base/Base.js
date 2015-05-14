@@ -6,94 +6,60 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful'], function(clz, utils, eventful) {
-    var Base = clz.define({
-        name: 'Base',
-        preConstructor: function(c) {
-            var me = this;
-            me._bindConf(c);
-            me._initId();
-            me._initEvents();
-            me.fire('init');
-            return [c]
-        },
-        afterConstructor: function(c) {
-            this._bindCache('__inited', true);
-            this.fire('inited');
-            return [c]
-        },
-        proto: {
-            _bindConf: function(conf) {
-                this._conf = conf;
-                return this
+define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'],
+    function(clz, utils, eventful, cache) {
+        var Base = clz.define({
+            name: 'Base',
+            preConstructor: function(c) {
+                var me = this;
+                me._bindConf(c);
+                me._initId();
+                me._initEvents();
+                me.fire('init');
+                return [c]
             },
-            getConf: function() {
-                return this._conf
+            afterConstructor: function(c) {
+                this._bindCache('__inited', true);
+                this.fire('inited');
+                return [c]
             },
-            _getCacheObj: function() {
-                if (!this.__cache) {
-                    this.__cache = {};
+            proto: {
+                _bindConf: function(conf) {
+                    this._conf = conf;
+                    return this
+                },
+                getConf: function() {
+                    return this._conf
+                },
+                _initId: function() {
+                    var conf = this.getConf(),
+                        id = conf.id,
+                        index = this.__index;
+                    id = (id === undefined || id == '') ? (this._class + index) : id;
+                    conf.id = id;
+                    return id
+                },
+                isInited: function() {
+                    return !!this._getCache('__inited')
+                },
+                getId: function() {
+                    return this.getConf().id;
+                },
+                isObjOf: function(clz) {
+                    return this.constructor._class == clz._class //鸭子比较－ －
+                },
+                destroy: function() {
+                    console.log(2)
+                    this._bindCache('destroyed', true);
+                },
+                isDestroyed: function() {
+                    return !!this._getCache('destroyed')
                 }
-                return this.__cache;
-            },
-            _bindCache: function(type, id, data) {
-                var cache = this._getCacheObj()[type];
-                if (utils.isUndefined(cache)) {
-                    cache = {};
-                }
-                if (data === undefined) { //2个参数时，id为data，直接把type类型的cache设置为data
-                    cache = id;
-                } else {
-                    cache[id] = data;
-                }
-                this._getCacheObj()[type] = cache;
-
-            },
-            _unbindCache: function(type, id) {
-                var cache = this._getCacheObj()[type];
-                if (utils.isDefined(cache)) {
-                    delete(cache[id])
-                }
-            },
-            _getCache: function(type, id) {
-                var cache = this._getCacheObj()[type];
-                if (utils.isDefined(cache)) {
-                    if (utils.isDefined(id) && id.length) {
-                        return cache[id]
-                    } else {
-                        return cache
-                    }
-                }
-            },
-            _clearCache: function(type) {
-                var cache = this._getCacheObj();
-                if (utils.isDefined(type) && type.length) {
-                    cache[type] = {};
-                } else {
-                    cache = {};
-                }
-            },
-            _initId: function() {
-                var conf = this.getConf(),
-                    id = conf.id,
-                    index = this.__index;
-                id = (id === undefined || id == '') ? (this._class + index) : id;
-                conf.id = id;
-                return id
-            },
-            isInited: function() {
-                return !!this._getCache('__inited')
-            },
-            getId: function() {
-                return this.getConf().id;
-            },
-            isObjOf: function(clz) {
-                return this.constructor._class == clz._class //鸭子比较－ －
             }
-        }
+        });
+
+        cache(Base);
+        eventful(Base);
+
+        return Base;
     });
-
-    eventful(Base);
-
-    return Base;
-});

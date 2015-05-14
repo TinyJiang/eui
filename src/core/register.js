@@ -46,8 +46,13 @@ define([], function() {
             }
         });
 
+        var oriDestroy = clz.prototype.destroy;
+
         $.extend(clz.prototype, {
             destroy: function() {
+                if (oriDestroy && $.type(oriDestroy) == 'function') {
+                    oriDestroy.apply(this);
+                }
                 delete(instanceCache[this.getId()])
             }
         })
