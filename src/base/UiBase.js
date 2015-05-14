@@ -38,7 +38,6 @@ define(['eui/base/Base', 'eui/core/clz'], function(Base, clz) {
                 return me
             },
             destroy: function() {
-                console.log(1)
                 this.getDom().remove();
                 this.callSuper(Base, 'destroy');
             }

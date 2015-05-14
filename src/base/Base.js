@@ -49,7 +49,6 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return this.constructor._class == clz._class //鸭子比较－ －
                 },
                 destroy: function() {
-                    console.log(2)
                     this._bindCache('destroyed', true);
                 },
                 isDestroyed: function() {
