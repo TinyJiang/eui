@@ -9,12 +9,18 @@
 define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful'], function(clz, utils, eventful) {
     var Base = clz.define({
         name: 'Base',
-        preConstructor: function(conf) {
+        preConstructor: function(c) {
             var me = this;
-            me._bindConf(conf);
+            me._bindConf(c);
             me._initId();
             me._initEvents();
             me.fire('init');
+            return [c]
+        },
+        afterConstructor: function(c) {
+            this._bindCache('__inited', true);
+            this.fire('inited');
+            return [c]
         },
         proto: {
             _bindConf: function(conf) {
@@ -74,6 +80,9 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful'], function(clz, u
                 id = (id === undefined || id == '') ? (this._class + index) : id;
                 conf.id = id;
                 return id
+            },
+            isInited: function() {
+                return !!this._getCache('__inited')
             },
             getId: function() {
                 return this.getConf().id;

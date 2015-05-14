@@ -202,21 +202,23 @@
 }
 
 /* ------------combo---------------- */
-.eui-combo .input-group-btn{
+.eui-combo .input-group{
 	text-align: center;
+	width: 100%;
 }
 
-.eui-combo .input-group-btn > button{
+.eui-combo .input-group > button{
 	width: 100%;
 	text-align: left;
+	border-radius: 4px!important;
 }
 
-.eui-combo .input-group-btn > button .caret{
+.eui-combo .input-group > button .caret{
 	float: right;
   	margin-top: 9px;
 }
 
-.eui-combo .input-group-btn .current-label{
+.eui-combo .input-group .current-label{
 	display: inline-block;
 	height: 17px;
 	white-space: nowrap;
@@ -225,17 +227,25 @@
 }
 
 
-.eui-combo .input-group-btn > ul{
+.eui-combo .input-group > ul{
 	width: 100%;
 }
-.eui-combo .input-group-btn > ul > li > a > i {
+.eui-combo .input-group > ul > li > a > i {
 	display: none;
 }
 
-.eui-combo .input-group-btn > ul > li > a > span {
+.eui-combo .input-group > ul > li > a > span {
 	margin-left: 10px;
 }
 
-.eui-combo .input-group-btn > ul.multi > li > a > i {
+.eui-combo .input-group > ul.multi > li > a > i {
 	display: inline;
 }
+
+
+/* ------------combo---------------- */
+.eui-datetime > input{
+	cursor: pointer!important;
+	background: #fff!important;
+}
+

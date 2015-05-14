@@ -8,6 +8,8 @@
 define([], function() {
     var instanceNumCache = {}; //缓存instance数目，用于未指定id时生成唯一id
 
+    var instanceCache = {}; //根据id缓存所有创建的对象
+
     var create = function(clz, args) {
         function F() {
             var index;
@@ -24,10 +26,11 @@ define([], function() {
         F.prototype = clz.prototype;
 
         var instance = new F();
+        instanceCache[instance.getId()] = instance;
         return instance;
     }
 
-    return function(clz, registerPair) {
+    var reg = function(clz, registerPair) {
         $.extend(clz, {
             create: function() { // 直接得到对象方法
                 return create(clz, arguments);
@@ -42,6 +45,19 @@ define([], function() {
                 $.extend(proto, registerPair);
             }
         });
+
+        $.extend(clz.prototype, {
+            destroy: function() {
+                delete(instanceCache[this.getId()])
+            }
+        })
         return clz
     }
+
+    reg.getObj = function(id) {
+        return instanceCache[id]
+    }
+
+
+    return reg
 })

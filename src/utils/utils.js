@@ -5,8 +5,12 @@
  * @since 0.1
  * @author JJF
  */
-define([], function() {
+define(['eui/core/register', 'eui/utils/string'], function(register, string) {
     var utils = {
+        string: string,
+        get: function(id) {
+            return register.getObj(id)
+        },
         isObjOf: function(obj, clz) { //判断是否符合规范的eui类的的对象
             return obj && $.type(obj.isObjOf) == 'function' && obj.isObjOf(clz)
         },

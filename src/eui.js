@@ -4,9 +4,29 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/comps/grid/grid', 'eui/comps/tree/tree', 'eui/comps/tree/treenode', 'eui/effects/mask', 'eui/data/loader', 'eui/comps/paging/paging', 'eui/comps/form/combo'],
-    function(grid, tree, treenode, mask, loader, paging, combo) {
-        var eui = function() {};
+define(['eui/utils/utils',
+        'eui/comps/grid/grid',
+        'eui/comps/tree/tree',
+        'eui/comps/tree/treenode',
+        'eui/effects/mask',
+        'eui/data/loader',
+        'eui/comps/paging/paging',
+        'eui/comps/form/combo',
+        'eui/comps/form/datetime'
+    ],
+    function(
+        utils,
+        grid,
+        tree,
+        treenode,
+        mask,
+        loader,
+        paging,
+        combo,
+        datetime) {
+        var eui = function() {
+            this.utils = $.extend({}, utils);
+        };
 
         grid.register(eui.prototype);
         mask.register(eui.prototype);
@@ -15,6 +35,7 @@ define(['eui/comps/grid/grid', 'eui/comps/tree/tree', 'eui/comps/tree/treenode',
         treenode.register(eui.prototype);
         paging.register(eui.prototype);
         combo.register(eui.prototype);
+        datetime.register(eui.prototype);
 
         return new eui();
     });
