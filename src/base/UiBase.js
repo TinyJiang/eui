@@ -6,7 +6,7 @@
  * @since 0.1
  * @author JJF
  */
-define(['eui/base/Base', 'eui/core/clz'], function(Base, clz) {
+define(['eui/base/Base', 'eui/core/clz', 'eui/utils/utils'], function(Base, clz, utils) {
     var UiBase = clz.define({
         name: 'UiBase',
         parent: Base,
@@ -39,7 +39,7 @@ define(['eui/base/Base', 'eui/core/clz'], function(Base, clz) {
             },
             destroy: function() {
                 this.getDom().remove();
-                this.callSuper(Base, 'destroy');
+                utils.callProto(Base, 'destroy', [], this);
             }
         }
     });

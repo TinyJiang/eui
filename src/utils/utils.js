@@ -22,6 +22,11 @@ define(['eui/core/register', 'eui/utils/string'], function(register, string) {
         },
         isUndefined: function(obj) {
             return $.type(obj) == 'undefined'
+        },
+        callProto: function(clz, name, args, scope) {
+            if ($.type(clz) == 'function' && $.type(clz.prototype[name]) == 'function') {
+                clz.prototype[name].apply(scope, args);
+            }
         }
     };
     return utils

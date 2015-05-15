@@ -35,19 +35,6 @@ define([], function() {
                     tmpArgs = afterConstructor.apply(me, args);
                     args = tmpArgs ? tmpArgs : args;
                 }
-
-                me.callSuper = function(name, args, clz) {
-                    var p = clz ? clz._parent : C._parent,
-                        fn;
-                    if (!p) {
-                        return
-                    }
-                    // fn = p.prototype[name];
-                    // if ($.type(fn) == 'function') {
-                    //     fn.apply(me, args);
-                    //     me.callSuper(name, args, p);
-                    // }
-                }
             }
 
             $.extend(C.prototype, ($.type(parent) == 'function') ? parent.prototype : {}, proto);
