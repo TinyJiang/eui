@@ -13,7 +13,8 @@ define(['eui/utils/utils',
         'eui/comps/paging/paging',
         'eui/comps/form/combo',
         'eui/comps/form/datetime',
-        'eui/comps/window/window'
+        'eui/comps/window/window',
+        'eui/comps/tab/tab'
     ],
     function(
         utils,
@@ -25,7 +26,9 @@ define(['eui/utils/utils',
         paging,
         combo,
         datetime,
-        window) {
+        window,
+        tab
+    ) {
         var eui = function() {
             this.utils = $.extend({}, utils);
         };
@@ -39,6 +42,7 @@ define(['eui/utils/utils',
         combo.register(eui.prototype);
         datetime.register(eui.prototype);
         window.register(eui.prototype);
+        tab.register(eui.prototype);
 
         return new eui();
     });
