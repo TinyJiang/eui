@@ -43,4 +43,4 @@ var initMask = function() {
 
 `注意：在调用eui之前必须先判断eui的模块代码是否已经加载并执行完成，用window.eui检测`
 
-### [实例](../../example/working_with_golbal_scripts/test.html)
+### [实例](./example/working_with_golbal_scripts/test.html)
