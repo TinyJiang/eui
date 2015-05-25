@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="../../lib/jquery/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="../../lib/mustache/mustache.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../lib/bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="../../lib/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../lib/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="../../src/css/eui-all.css">
+	<script type="text/javascript" src="../../lib/requirejs/require.js" data-main="test_module"></script>
+	<script type="text/javascript">
+		require.config({
+			paths : {
+				'eui' : '../../src',
+				'text':'../../lib/requirejs/plugins/text',//text plugin
+				'datetimepicker':'../../src/plugin/datetimepicker/bootstrap-datetimepicker',
+				'moment':'../../src/plugin/moment/moment-with-locales.min'
+			}
+		});
+	</script>
+	<title>GRID TEST</title>
+	<style>
+		#tb {
+			width: 500px;
+			height: 300px;
+		}
+	</style>
+</head>
+<body>
+	<div id="tb"></div>
+	<button id="showmask" class="btn btn-default">showmask</button>
+	<button id="hidemask" class="btn btn-default">hidemask</button>
+	<script type="text/javascript" src="test_golbal.js"></script>
+</body>
+</html>
