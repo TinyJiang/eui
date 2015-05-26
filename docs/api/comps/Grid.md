@@ -41,31 +41,31 @@ var grid = eui.grid({
 ## Configs
 
 ### dom(jQuery Object)
-	将grid渲染至该dom中，一般为div，样式可自行指定
+将grid渲染至该dom中，一般为div，样式可自行指定
 ### multiSel(Boolean)
-	是否允许多选，默认false
+是否允许多选，默认false
 ### loader([Loader]())
-	数据加载器
+数据加载器
 ### columns(Array(ColumnConfig))
-    列配置
+列配置
 
 ## Methods
 
 ### getLoader() : [Loader]()
-    获取当前使用的数据加载器
+获取当前使用的数据加载器
 
 ### getCurrentSel() : Array([LineData]())
-    获取当前选中的数据
+获取当前选中的数据
 
 ## Events
 ### init()
-    初始化结束
+初始化结束
 
 ### select([LineData]())
-    选中某一行
+选中某一行
 
 ### unselect([LineData]())
-    取消选中
+取消选中
 
 ### cellclick([LineData]())
-    单击cell
+单击cell
