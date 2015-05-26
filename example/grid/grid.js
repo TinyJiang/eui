@@ -2,7 +2,7 @@ define(['eui/eui'], function(eui) {
     var loader = eui.loader({
         url: 'grid.json',
         timeout: 30000,
-        method: 'GET',
+        type: 'POST',
         dataType: 'json',
         dataPath: 'data.data'
     });
@@ -45,11 +45,20 @@ define(['eui/eui'], function(eui) {
         }
     });
     grid.on('select', function(linedata) {
-        console.log(linedata);
+        if ($.type(linedata) == 'array') {
+            console.log('select ' + linedata.length + ' lines ');
+        } else {
+            console.log('select line ' + linedata.lineIndex);
+        }
     }).on('unselect', function(linedata) {
-        console.log(linedata);
+        if ($.type(linedata) == 'array') {
+            console.log('unselect ' + linedata.length + ' lines ');
+        } else {
+            console.log('unselect line ' + linedata.lineIndex);
+        }
+
     }).on('cellclick', function(data) {
-        console.log(data);
+        console.log('click line ' + data.lineIndex + ' cell ' + data.cellIndex);
     })
     loader.load({
         start: 0,

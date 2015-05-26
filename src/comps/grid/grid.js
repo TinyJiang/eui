@@ -17,7 +17,8 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
         /** ----------------公共参数、方法-----------------* */
         var gridIndex = 0,
             defaultConf = {
-                multiSel: false
+                multiSel: false,
+                showCheckBox: undefined //不指定自动按照multiSel生成，强制指定就按照指定的
             },
             columnDefault = {
                 width: 80,
@@ -80,6 +81,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     id: conf.id,
                     type: conf.type,
                     headers: [],
+                    showCheckBox: (conf.showCheckBox ? 'show' : 'hide'),
                     datas: []
                 };
             $.each(columns, function(i, c) {
@@ -159,6 +161,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
 
             // ui事件
             var d = _grid.getDom();
+
             d.on('click', 'tbody tr td', function() {
                 // cell处理
                 var cell = $(this),
@@ -172,7 +175,38 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 // line处理
                 var line = cell.parent();
                 lineClick(_grid, line);
-            })
+            });
+
+            d.on('click', 'thead tr th', function() {
+                var cell = $(this),
+                    cell_id = this.id;
+                if (cell_id.lastIndexOf('check') == cell_id.length - 5) { //全选
+                    var line = cell.parent(),
+                        currentSel = _grid._getCache('currentSel');
+                    if (line.hasClass('sel')) { //取消全选
+                        var currentSelDatas = [];
+                        for (var i in currentSel) {
+                            if (currentSel.hasOwnProperty(i)) {
+                                currentSelDatas.push(currentSel[i]);
+                            }
+                        };
+                        d.find('tr').removeClass('sel');
+                        _grid._bindCache('currentSel', {});
+                        _grid.fire('unselect', [currentSelDatas]); // 触发unselect事件
+                    } else { //启用全选
+                        var allLine = _grid._getCache('line'),
+                            allLineDatas = [];
+                        for (var i in allLine) {
+                            if (allLine.hasOwnProperty(i) && !currentSel[i]) {
+                                allLineDatas.push(allLine[i]);
+                            }
+                        };
+                        d.find('tr').addClass('sel');
+                        _grid._bindCache('currentSel', allLine);
+                        _grid.fire('select', [allLineDatas]); // 触发select事件
+                    }
+                }
+            });
         }
 
         // 初始化dom
@@ -192,6 +226,9 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     c = $.extend({}, defaultConf, c);
                     if (!utils.isObjOf(c.loader, loader)) {
                         c.loader = loader.create(c.loader);
+                    }
+                    if (c.showCheckBox === undefined) {
+                        c.showCheckBox = c.multiSel;
                     }
                 }
                 return [c]

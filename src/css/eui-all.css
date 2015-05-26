@@ -70,6 +70,15 @@
 	background-color: #E1E1E1
 }
 
+.euigrid table tr .check-column{
+	width: 50px;
+	text-align: center;
+}
+
+.euigrid table.table-hide-check tr .check-column{
+	display: none;
+}
+
 /* ------------grid---------------- */
 
 

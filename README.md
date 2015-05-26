@@ -7,8 +7,6 @@ eui是`事件驱动`的bootstrap前端组件库。
 > * bootstrap
 > * mustache
 
-[API文档库](http://10.8.132.221:8090/display/BASEFRAME01/eui)
-
 ---
 
 ## bug或者features
@@ -58,7 +56,7 @@ define(['eui/eui'], function(eui) {
     var loader = eui.loader({
         url: 'tree.json',
         timeout: 30000,
-        method: 'GET',
+        type: 'GET',
         dataType: 'json',
         dataPath: 'data'
     });

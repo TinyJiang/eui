@@ -2,7 +2,7 @@ define(['eui/eui'], function(eui) {
     var loader = eui.loader({
         url: 'tree.json',
         timeout: 30000,
-        method: 'GET',
+        type: 'GET',
         autoLoad: true,
         dataType: 'json',
         dataPath: 'data'
@@ -16,9 +16,9 @@ define(['eui/eui'], function(eui) {
     });
 
     tree.on('expandNode', function(node) {
-        node.getRecord().set('checked', true);
+        //node.getRecord().set('checked', true);
     }).on('collapseNode', function(node) {
-        console.log(node);
+        //console.log(node);
     }).on('selectNode', function(node) {
         // node.getRecord().set('fullname', 'hahahahahahaha');
     })
