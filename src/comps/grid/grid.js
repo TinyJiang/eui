@@ -21,7 +21,6 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 showCheckBox: undefined //不指定自动按照multiSel生成，强制指定就按照指定的
             },
             columnDefault = {
-                width: 80,
                 align: 'left',
                 render: function(val) {
                     return val
@@ -38,38 +37,70 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             }
         };
 
-        // 列宽处理
-        var generateWidth = function(columns, total) {
-            var _used = 0,
-                _flexTotal = 0;
-            $.each(columns, function(i, c) {
-                if (c.width) {
-                    _used += c.width;
-                } else if (c.flex) {
-                    _flexTotal += c.flex;
-                }
-            })
-            var _left = total - _used;
-            if (_flexTotal && _left > 0) {
-                $.each(columns, function(i, c) {
-                    if (c.flex) {
-                        c.width = c.flex / _flexTotal * _left;
-                    }
-                })
-            }
-            return columns
-        };
-
         // 列数据处理
         var columnGenerate = function(_grid) {
-            var columns = _grid.getConf().columns,
-                d = _grid.getDom();
-            columns = generateWidth(columns, d.innerWidth());
-            var newColumns = [];
-            $.each(columns, function(i, c) {
-                newColumns.push($.extend({}, columnDefault, c));
-            })
-            return newColumns
+            var conf = _grid.getConf(),
+                columns = conf.columns,
+                d = _grid.getDom(),
+                total = d.innerWidth(),
+                dataColumns = []; //真正展现数据的列
+
+            var _used = 0,
+                _flexTotal = 0,
+                headRows = 0;
+
+            var dealAllWidth = function(_columns, rowIndex) {
+                var w = 0,
+                    _newColumns = [];
+                rowIndex += 1;
+                headRows = rowIndex > headRows ? rowIndex : headRows;
+                $.each(_columns, function(i, c) {
+                    if (c.columns && c.columns.length) {
+                        c.columns = dealAllWidth(c.columns, rowIndex);
+                    } else {
+                        if (c.width) {
+                            _used += c.width;
+                        } else if (c.flex) {
+                            _flexTotal += c.flex;
+                        }
+                    }
+                    _newColumns.push(c);
+                })
+                return _newColumns;
+            };
+            columns = dealAllWidth(columns, 0);
+            if (conf.showCheckBox) {
+                _used += 50;
+            }
+            var _left = total > _used ? total - _used : total;
+            var dealFlexWidth = function(_columns, rowIndex) {
+                var _newColumns = [];
+                rowIndex += 1;
+                $.each(_columns, function(i, c) {
+                    c = $.extend({}, columnDefault, c);
+                    c.level = rowIndex - 1;
+                    if (c.columns && c.columns.length) {
+                        c.colspan = c.columns.length;
+                        c.rowspan = 1;
+                        c.columns = dealFlexWidth(c.columns, rowIndex);
+                    } else {
+                        if (c.flex) {
+                            c.width = c.flex / _flexTotal * _left;
+                        }
+                        c.rowspan = headRows - rowIndex + 1;
+                        c.colspan = 1;
+                        c.width = c.width ? c.width : 80; //默认80宽度
+                        dataColumns.push(c);
+                    }
+                    _newColumns.push(c);
+                })
+                return _newColumns;
+            }
+            columns = dealFlexWidth(columns, 0);
+
+            conf.dataColumns = dataColumns;
+            conf.headRows = headRows;
+            return columns
         }
 
         // 渲染数据
@@ -77,20 +108,47 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             var d = _grid.getDom(),
                 conf = _grid.getConf(),
                 columns = conf.columns,
+                dataColumns = conf.dataColumns,
                 renderObj = {
                     id: conf.id,
                     type: conf.type,
-                    headers: [],
+                    headRows: conf.headRows,
+                    firstHeader: {
+                        headers: []
+                    },
+                    extendHeaders: [],
                     showCheckBox: (conf.showCheckBox ? 'show' : 'hide'),
                     datas: []
                 };
-            $.each(columns, function(i, c) {
-                renderObj.headers.push({
-                    header: c.header,
-                    width: c.width,
-                    align: c.align
-                });
-            })
+
+            var dealHeadLine = function(_columns) {
+                $.each(_columns, function(i, c) {
+                    var lv = c.level,
+                        isLast = i == _columns.length - 1,
+                        hearObj = {
+                            header: c.header,
+                            width: c.width - 1, //减去1px的border
+                            align: c.align,
+                            colspan: c.colspan,
+                            rowspan: c.rowspan,
+                            isLast: isLast ? 'last' : ''
+                        };
+                    if (lv) {
+                        var headerRow = renderObj.extendHeaders[lv - 1] || {
+                            headers: []
+                        };
+                        headerRow.headers.push(hearObj);
+                        renderObj.extendHeaders[lv - 1] = headerRow;
+                    } else { //第一层
+                        renderObj.firstHeader.headers.push(hearObj);
+                    }
+                    if (c.columns && c.columns.length) {
+                        dealHeadLine(c.columns);
+                    }
+                })
+            }
+            dealHeadLine(columns);
+
             $.each(records, function(i, record) {
                 var lineid = renderObj.id + '-' + i;
                 var line = {
@@ -101,13 +159,14 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     lineIndex: i,
                     lineData: record
                 });
-                $.each(columns, function(j, c) {
+                $.each(dataColumns, function(j, c) {
                     var cellid = line.id + '-' + j;
                     line.columns.push({
                         id: cellid,
                         value: c
                             .render(record.get(c.index)),
-                        align: c.align
+                        align: c.align,
+                        width: c.width
                     });
                     _grid._bindCache('cell', cellid, {
                         lineIndex: i,
@@ -121,10 +180,15 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             });
             var html = Mustache.render(template, renderObj);
             d.empty().append($(html));
+
+            //设置body高度
+            //var totalHeight = d.innerHeight(),
+            //    headerHeight = $('#' + conf.id + '-head').height();
+            //$('#' + conf.id + '-body-cnt').height(totalHeight - headerHeight);
         }
 
         // 选中条目
-        var lineClick = function(_grid, line) {
+        var lineClick = function(e, _grid, line) {
             var c = _grid.getConf(),
                 d = _grid.getDom(),
                 line_id = line
@@ -134,7 +198,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             if (line.hasClass('sel')) { // 选中变未选中
                 line.removeClass('sel');
                 _grid._unbindCache('currentSel', line_id); // 解除选中数据绑定
-                _grid.fire('unselect', [line_data]); // 触发unselect事件
+                _grid.fire('unselect', [line_data, e]); // 触发unselect事件
 
             } else { // 未选中变选中
                 if (!c.multiSel) {
@@ -143,7 +207,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 }
                 line.addClass('sel');
                 _grid._bindCache('currentSel', line_id, line_data); // 添加当前选中数据
-                _grid.fire('select', [line_data]); // 触发select事件
+                _grid.fire('select', [line_data, e]); // 触发select事件
             }
         }
 
@@ -162,19 +226,19 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             // ui事件
             var d = _grid.getDom();
 
-            d.on('click', 'tbody tr td', function() {
+            d.on('click', 'tbody tr td', function(e) {
                 // cell处理
                 var cell = $(this),
                     cell_id = this.id;
                 if (cell_id.lastIndexOf('check') != cell_id.length - 5) {
                     var cell_data = _grid
                         ._getCache('cell', cell_id);
-                    _grid.fire('cellclick', [cell_data]);
+                    _grid.fire('cellclick', [cell_data, e]);
                 }
 
                 // line处理
                 var line = cell.parent();
-                lineClick(_grid, line);
+                lineClick(e, _grid, line);
             });
 
             d.on('click', 'thead tr th', function() {
@@ -182,7 +246,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     cell_id = this.id;
                 if (cell_id.lastIndexOf('check') == cell_id.length - 5) { //全选
                     var line = cell.parent(),
-                        currentSel = _grid._getCache('currentSel');
+                        currentSel = _grid._getCache('currentSel') || {};
                     if (line.hasClass('sel')) { //取消全选
                         var currentSelDatas = [];
                         for (var i in currentSel) {
@@ -192,7 +256,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                         };
                         d.find('tr').removeClass('sel');
                         _grid._bindCache('currentSel', {});
-                        _grid.fire('unselect', [currentSelDatas]); // 触发unselect事件
+                        _grid.fire('unselect', [currentSelDatas, e]); // 触发unselect事件
                     } else { //启用全选
                         var allLine = _grid._getCache('line'),
                             allLineDatas = [];
@@ -202,8 +266,8 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                             }
                         };
                         d.find('tr').addClass('sel');
-                        _grid._bindCache('currentSel', allLine);
-                        _grid.fire('select', [allLineDatas]); // 触发select事件
+                        _grid._bindCache('currentSel', $.extend({}, allLine));
+                        _grid.fire('select', [allLineDatas, e]); // 触发select事件
                     }
                 }
             });

@@ -16,9 +16,7 @@ define(['eui/utils/utils'], function(utils) {
             },
             _bindCache: function(type, id, data) {
                 var cache = this._getCacheObj()[type];
-                if (utils.isUndefined(cache)) {
-                    cache = {};
-                }
+                cache = utils.isUndefined(cache) ? {} : cache;
                 if (data === undefined) { //2个参数时，id为data，直接把type类型的cache设置为data
                     cache = id;
                 } else {

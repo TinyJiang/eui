@@ -61,16 +61,39 @@
 	
 }
 
-.euigrid table td,.euigrid table th{
+.euigrid > table{
+}
+
+.euigrid table thead th{
+	  border: 1px solid #ddd;
+	  border-left: 0px;
+}
+
+.euigrid table thead th.last{
+	  border-right: 0px;
+}
+
+.euigrid table td, .euigrid table th{
 	vertical-align: middle!important;
 	cursor: default;
+	padding-left: 0px!important;
+	padding-right: 0px!important;
 }
+
+.euigrid table td > div, .euigrid table th > div{
+	white-space:nowrap; 
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	overflow: hidden; 
+}
+
+
 
 .euigrid table tr.sel td {
 	background-color: #E1E1E1
 }
 
-.euigrid table tr .check-column{
+.euigrid table tr .check-column > div{
 	width: 50px;
 	text-align: center;
 }

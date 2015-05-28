@@ -1,24 +1,35 @@
-<table id="{{id}}" class="table table-hover table-{{type}} table-{{showCheckBox}}-check">
+<table id="{{id}}-head" class="table table-hover table-{{type}} table-{{showCheckBox}}-check">
 	<thead>
 		<tr>
-			<th id="{{id}}-all-check" class="check-column">
-				<span class="glyphicon e-checkbox" aria-hidden="true"></span>
+			<th rowspan="{{headRows}}" id="{{id}}-all-check" class="check-column">
+				<div><span class="glyphicon e-checkbox" aria-hidden="true"></span></div>
 			</th>
+			{{#firstHeader.headers}}
+			<th colspan="{{colspan}}" rowspan="{{rowspan}}" class="{{isLast}}" style="text-align: {{align}};">
+				<div style="width:{{width}}px;">{{&header}}</div>
+			</th> 
+			{{/firstHeader.headers}}
+		</tr>
+		{{#extendHeaders}}
+		<tr>
 			{{#headers}}
-			<th style="text-align: {{align}};width: {{width}}px;">{{&header}}</th> 
+			<th colspan="{{colspan}}" rowspan="{{rowspan}}" style="text-align: {{align}};width: {{width}}px;">{{&header}}</th> 
 			{{/headers}}
 		</tr>
+		{{/extendHeaders}}
 	</thead>
 	<tbody>
-		{{#datas}}
-		<tr id="{{id}}">
-			<td class="check-column" id="{{id}}-check">
-				<span class="glyphicon e-checkbox" aria-hidden="true"></span>
-			</td>
-			{{#columns}}
-			<td id="{{id}}" style="text-align: {{align}}">{{&value}}</td>
-			{{/columns}}
-		</tr>
-		{{/datas}}
-	</tbody>
+			{{#datas}}
+			<tr id="{{id}}">
+				<td class="check-column" id="{{id}}-check">
+					<div style="width:{{width}}px;"><span class="glyphicon e-checkbox" aria-hidden="true"></span></div>
+				</td>
+				{{#columns}}
+				<td id="{{id}}" style="text-align: {{align}};">
+					<div style="width:{{width}}px;">{{&value}}</div>
+				</td>
+				{{/columns}}
+			</tr>
+			{{/datas}}
+		</tbody>
 </table>

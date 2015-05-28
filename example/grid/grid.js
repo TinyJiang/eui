@@ -20,17 +20,24 @@ define(['eui/eui'], function(eui) {
             header: 'ID',
             index: 'id',
             align: 'center',
-            width: 120
+            width: 40
         }, {
-            header: '用户名',
-            index: 'username',
-            flex: 1
-        }, {
-            header: '中文名',
-            index: 'fullname',
-            flex: 1
+            header: '名字',
+            align: 'center',
+            columns: [{
+                header: '用户名',
+                align: 'center',
+                index: 'username',
+                flex: 1
+            }, {
+                header: '中文名',
+                align: 'center',
+                index: 'fullname',
+                flex: 1
+            }]
         }, {
             header: '状态',
+            align: 'center',
             index: 'status',
             width: 80,
             render: function(val) {
@@ -44,7 +51,7 @@ define(['eui/eui'], function(eui) {
             }
         }
     });
-    grid.on('select', function(linedata) {
+    grid.on('select', function(linedata, e) {
         if ($.type(linedata) == 'array') {
             console.log('select ' + linedata.length + ' lines ');
         } else {
