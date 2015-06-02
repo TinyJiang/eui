@@ -52,6 +52,7 @@ define(['eui/eui'], function(eui) {
         }
     });
     grid.on('select', function(linedata, e) {
+        console.log(linedata);
         if ($.type(linedata) == 'array') {
             console.log('select ' + linedata.length + ' lines ');
         } else {
@@ -64,7 +65,8 @@ define(['eui/eui'], function(eui) {
             console.log('unselect line ' + linedata.lineIndex);
         }
 
-    }).on('cellclick', function(data) {
+    }).on('cellclick', function(data, e) {
+        console.log(data);
         console.log('click line ' + data.lineIndex + ' cell ' + data.cellIndex);
     })
     loader.load({

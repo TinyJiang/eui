@@ -111,16 +111,34 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                 initEvents(this);
                 return [c]
             },
-            proto: {
+            proto:
+            /** @lends treenode.prototype */
+            {
+                /**
+                 * @desc 获取子节点
+                 * @return {treenode[]}  childs
+                 */
                 getChildren: function() {
                     return this._getCache(CACHE_KEYS.CHILDREN)
                 },
+                /**
+                 * @desc 获取record数据
+                 * @return {record}  rec
+                 */
                 getRecord: function() {
                     return this.getConf().record;
                 },
+                /**
+                 * @desc 判断是否被选中
+                 * @return {Boolean}  isChecked
+                 */
                 isChecked: function() {
                     return !!this._getCache(CACHE_KEYS.CHECK_FLAG)
                 },
+                /**
+                 * @desc 设置是否选中
+                 * @param {Boolean}  checked ture为选中，false为不选中
+                 */
                 setChecked: function(flag) {
                     var me = this,
                         d = me.getDom(),
@@ -138,8 +156,24 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                     }
 
                     me._bindCache(CACHE_KEYS.CHECK_FLAG, flag);
+                    /**
+                     * @event select
+                     * @memberOf treenode
+                     * @description 选中触发
+                     * @param {treenode} node 树节点
+                     */
+
+                    /**
+                     * @event unselect
+                     * @memberOf treenode
+                     * @description 取消选中触发
+                     * @param {treenode} node 树节点
+                     */
                     me.fire(flag ? 'select' : 'unselect', [me])
                 },
+                /**
+                 * @desc 展开节点
+                 */
                 expand: function() {
                     var me = this,
                         c = me.getConf(),
@@ -149,6 +183,12 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                     var complete = function() {
                         d.removeClass('treenode-loading').removeClass('treenode-collapsed').addClass('treenode-expanded');
                         me.expanded = true;
+                        /**
+                         * @event expand
+                         * @memberOf treenode
+                         * @description 展开节点触发
+                         * @param {treenode} node 树节点
+                         */
                         me.fire('expand', [me]);
                     }
                     if (!c.isLeaf && (!me.getChildren() || !me.getChildren().length)) { //需要进行懒加载
@@ -170,14 +210,26 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                     }
 
                 },
+                /**
+                 * @desc 收缩节点
+                 */
                 collapse: function() {
                     var me = this,
                         d = me.getDom(),
                         childrenCnt = d.children('.children-cnt');
                     d.removeClass('treenode-expanded').addClass('treenode-collapsed');
                     me.expanded = false;
+                    /**
+                     * @event collapse
+                     * @memberOf treenode
+                     * @description 收缩节点触发
+                     * @param {treenode} node 树节点
+                     */
                     me.fire('collapse', [me]);
                 },
+                /**
+                 * @desc 展开/收缩节点
+                 */
                 tonggle: function() {
                     var me = this;
                     if (me.expanded) {
@@ -190,6 +242,18 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
         });
 
         return register(TreeNode, {
+            /**
+             * @constructor treenode
+             * @desc treenode组件，挂载至eui.treenode，一般由tree自动生成
+             * @extends CompBase
+             * @param {Object} conf 配置对象
+             * @param {String} conf.labelIndex label字段
+             * @param {Boolean} [conf.autoExpand=false] 是否自动展开
+             * @param {Boolean} [conf.multiSel=false] 是否多选
+             * @param {tree} conf.tree tree
+             * @since 0.1
+             * @author JJF
+             */
             treenode: 'create'
         })
     });

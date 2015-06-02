@@ -1,15 +1,4 @@
 'use strict'
-/**
- * GRID表格组件
- *
- * @event init()初始化结束
- * @event select(lineData)选中
- * @event unselect(lineData)取消选中
- * @event cellclick(cellData)单击cell
- *
- * @since 0.1
- * @author JJF
- */
 define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
         'eui/core/register', 'text!eui/template/grid/grid.html'
     ],
@@ -198,6 +187,15 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             if (line.hasClass('sel')) { // 选中变未选中
                 line.removeClass('sel');
                 _grid._unbindCache('currentSel', line_id); // 解除选中数据绑定
+                /**
+                 * @event unselect
+                 * @memberOf grid
+                 * @description 取消选中触发
+                 * @param {Object} lineData 行值
+                 * @param {Number} lineData.lineIndex 行号，从0开始
+                 * @param {record} lineData.lineData 所在行的record
+                 * @param {EventObject} e 事件对象
+                 */
                 _grid.fire('unselect', [line_data, e]); // 触发unselect事件
 
             } else { // 未选中变选中
@@ -207,6 +205,15 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 }
                 line.addClass('sel');
                 _grid._bindCache('currentSel', line_id, line_data); // 添加当前选中数据
+                /**
+                 * @event select
+                 * @memberOf grid
+                 * @description 选中触发
+                 * @param {Object} lineData 行值
+                 * @param {Number} lineData.lineIndex 行号，从0开始
+                 * @param {record} lineData.lineData 所在行的record
+                 * @param {EventObject} e 事件对象
+                 */
                 _grid.fire('select', [line_data, e]); // 触发select事件
             }
         }
@@ -233,6 +240,18 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 if (cell_id.lastIndexOf('check') != cell_id.length - 5) {
                     var cell_data = _grid
                         ._getCache('cell', cell_id);
+                    /**
+                     * @event cellclick
+                     * @memberOf grid
+                     * @description 点击cell触发
+                     * @param {Object} cellData cell值对象
+                     * @param {Number} cellData.lineIndex 行号，从0开始
+                     * @param {Number} cellData.cellIndex 列号，从0开始
+                     * @param {String} cellData.cellData 列值
+                     * @param {String} cellData.cellIndex 列index
+                     * @param {record} cellData.lineData 所在行的record
+                     * @param {EventObject} e 事件对象
+                     */
                     _grid.fire('cellclick', [cell_data, e]);
                 }
 
@@ -304,10 +323,21 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 initDom(me);
                 bindEvents(me);
             },
-            proto: {
+            proto:
+            /** @lends grid.prototype */
+            {
+                /**
+                 * @desc 获取数据加载器
+                 * @see loader
+                 * @return {Object}  loader
+                 */
                 getLoader: function() {
                     return this.getConf().loader
                 },
+                /**
+                 * @desc 获取当前选中的records
+                 * @return {record[]} 当前选中的records
+                 */
                 getCurrentSel: function() {
                     var currentSel = this._getCache('currentSel'),
                         sel = [];
@@ -322,6 +352,26 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
         });
 
         return register(Grid, {
+            /**
+             * @constructor grid
+             * @desc grid表格控件，挂载至eui.grid
+             * @extends CompBase
+             * @param {Object} conf 配置对象
+             * @param {Object} conf.dom 渲染容器，jquery dom对象
+             * @param {Boolean} [conf.multiSel=false] 是否多选
+             * @param {Boolean} [conf.showCheckBox=undefined] 是否强制显示或不显示checkbox，不指定自动按照multiSel生成，强制指定就按照指定的
+             * @param {loader} conf.loader 数据加载器
+             * @param {Object[]} [conf.columns=[]] 列配置
+             * @param {String} conf.columns.header 列头
+             * @param {String} conf.columns.index 数据列
+             * @param {String} conf.columns.align 对齐方式
+             * @param {Number} conf.columns.flex 百分比宽度，计算方式(flex值/总flex值)(容器总宽度-总固定宽度)
+             * @param {Number} [conf.columns.width=80] 宽度
+             * @param {Function} [conf.columns.render=undefined] 渲染显示值方法，参数为v
+             * @param {Object[]} [conf.columns.columns=[]] 二级分类，字段同columns
+             * @since 0.1
+             * @author JJF
+             */
             grid: 'create'
         })
     });

@@ -1,13 +1,4 @@
 'use strict'
-/**
- * 时间控件
- *
- * @event init()初始化结束
- * @event change()value修改
- *
- * @since 0.1
- * @author JJF
- */
 define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
     'eui/core/register', 'datetimepicker', 'text!eui/template/form/datetime.html'
 ], function(utils, loader, CompBase, clz, register, datetimepicker, template) {
@@ -57,6 +48,12 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             obj = getObj(_datetime);
 
         d.on('dp.change', function(e) {
+            /**
+             * @event change
+             * @memberOf datetime
+             * @description 选择修改时间触发
+             * @param {String} dateString 选中的时间值
+             */
             _datetime.fire('change', [e.date]);
             if (utils.string.isNotBlank(c.startTimePicker)) {
                 var pickerStart = register.getObj(c.startTimePicker);
@@ -86,12 +83,38 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             initDom(me);
             bindEvents(me);
         },
-        proto: {
+        proto:
+        /** @lends datetime.prototype */
+        {
+            /**
+             * @desc 获取当前值
+             * @return {String} 返回日期字符串
+             */
             getValue: function() {
                 var obj = getObj(this),
                     d = this.getDom();
                 return (obj && obj.viewDate) ? obj.viewDate() : d.children('input').val()
             },
+            /**
+             * @desc 设置值
+             * @param {Date | String} v 可为Date或者String类型
+             */
+            setValue: function(date) {
+                var obj = getObj(this);
+                return obj && obj.date(date);
+            },
+            /**
+             * @desc 获取原始picker obj，可以使用的方法见see
+             * @see http://eonasdan.github.io/bootstrap-datetimepicker/Functions/
+             * @return {Object} 原始picker obj
+             */
+            getObj: function() {
+                return getObj(this)
+            },
+            /**
+             * @desc 设置最小值
+             * @param {Date | String} v 可为Date或者String类型
+             */
             setMin: function(dateString) {
                 var me = this;
                 dateString = dateString == null ? false : dateString;
@@ -106,6 +129,10 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
                     });
                 }
             },
+            /**
+             * @desc 设置最大值
+             * @param {Date | String} v 可为Date或者String类型
+             */
             setMax: function(dateString) {
                 var me = this;
                 dateString = dateString == null ? false : dateString;
@@ -124,6 +151,26 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
     });
 
     return register(DateTime, {
+        /**
+         * @constructor datetime
+         * @desc 时间选择组件，挂载至eui.datetime
+         * @extends CompBase
+         * @param {Object} conf 配置对象
+         * @param {Object} conf.dom 渲染容器，jquery dom对象
+         * @param {Object} conf.timeConf 时间控件配置 见http://eonasdan.github.io/bootstrap-datetimepicker/Options/
+         * @param {String} [conf.timeConf.locale='zh-CN'] 语言
+         * @param {String} [conf.timeConf.format='YYYY-MM-DD HH:mm:ss'] 格式化样式
+         * @param {Date | String} [conf.timeConf.defaultDate=new Date()] 默认时间
+         * @param {Boolean} [conf.timeConf.sideBySide=false] 是否日期和时间同时在左右两边显示
+         * @param {Boolean} [conf.timeConf.showTodayButton=true] 是否显示选中当前时间按钮
+         * @param {Boolean} [conf.timeConf.showClear=false] 是否显示清除按钮
+         * @param {Boolean} [conf.useWeek=false] 是否选择星期
+         * @param {String} [conf.startTimePicker=''] 开始时间选择组件的id
+         * @param {String} [conf.endTimePicker=''] 结束时间选择组件的id
+         * @param {Number} [conf.width=0] 宽度
+         * @since 0.1
+         * @author JJF
+         */
         datetime: 'create'
     })
 });

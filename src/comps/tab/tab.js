@@ -1,12 +1,4 @@
 'use strict'
-/**
- * Tab组件
- *
- * @event init()初始化结束
- * @event switch(tabid) 显示
- * @since 0.1
- * @author JJF
- */
 define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/register', 'text!eui/template/tab/tab.html'],
     function(clz, CompBase, utils, register, template) {
         /** ----------------公共参数、方法-----------------* */
@@ -55,6 +47,12 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
                 if (id && id.length > 4) {
                     id = id.substring(0, id.length - 4);
                     if (id !== _current) {
+                        /**
+                         * @event switch
+                         * @memberOf tab
+                         * @description tab切换触发
+                         * @param {String} id 切换至的tab id
+                         */
                         _tab.fire('switch', [id]);
                         _tab._bindCache(CACHE_KEYS.CURRENT_TAB, id);
                     }
@@ -85,6 +83,19 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
         });
 
         return register(Tab, {
+            /**
+             * @constructor tab
+             * @desc tab控件，挂载至eui.tab
+             * @extends CompBase
+             * @param {Object} conf 配置对象
+             * @param {Object} conf.dom 渲染容器，jquery dom对象
+             * @param {Object[]} [conf.tabs=[]] tab配置
+             * @param {String} conf.tabs.id tab对应的dom的id，要通过id控制隐藏与显示
+             * @param {Boolean} [conf.tabs.active=false] 是否激活，默认显示激活的tab
+             * @param {String} [conf.tabs.text=''] tab标题
+             * @since 0.1
+             * @author JJF
+             */
             tab: 'create'
         })
 

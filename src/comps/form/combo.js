@@ -1,15 +1,4 @@
 'use strict'
-/**
- * COMBO下拉框组件
- *
- * @event init()初始化结束
- * @event expand()打开下拉
- * @event collapse()收起下拉
- * @event select(records)选中
- *
- * @since 0.1
- * @author JJF
- */
 define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz',
     'eui/core/register', 'text!eui/template/form/combo.html'
 ], function(utils, loader, CompBase, clz, register, template) {
@@ -81,6 +70,13 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             _vals = [v];
         }
         _combo.setValue(_vals);
+        /**
+         * @event select
+         * @memberOf combo
+         * @description 选项修改触发
+         * @param {String} v 当前修改的v值
+         * @param {String[]} vals 修改之后的vals
+         */
         _combo.fire('select', [v, _vals]);
     }
 
@@ -123,10 +119,21 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             initDom(me);
             bindEvents(me);
         },
-        proto: {
+        proto:
+        /** @lends combo.prototype */
+        {
+            /**
+             * @desc 获取数据加载器
+             * @see loader
+             * @return {Object}  loader
+             */
             getLoader: function() {
                 return this.getConf().loader
             },
+            /**
+             * @desc 设置值
+             * @param {String | String[]} v 可为逗号分割的字符串或者值数组
+             */
             setValue: function(v) {
                 var me = this,
                     d = me.getDom(),
@@ -152,6 +159,10 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
                     me._bindCache(CACHE_KEYS.CURRENT_VALUE, vals);
                 }
             },
+            /**
+             * @desc 获取当前值
+             * @return {String | String[]} 返回字符串(单选模式)或者字符数组(多选模式)
+             */
             getValue: function() {
                 var _v = this._getCache(CACHE_KEYS.CURRENT_VALUE),
                     c = this.getConf(),
@@ -166,6 +177,10 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
                 }
                 return c.multiSel ? vals : (vals.length ? vals[0] : '')
             },
+            /**
+             * @desc 获取当前值所在的record
+             * @return {record | record[]} 返回record(单选模式)或者record数组(多选模式)
+             */
             getRecords: function() {
                 var _v = this._getCache(CACHE_KEYS.CURRENT_VALUE),
                     c = this.getConf(),
@@ -185,6 +200,20 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
     });
 
     return register(Combo, {
+        /**
+         * @constructor combo
+         * @desc COMBO下拉框组件，挂载至eui.combo
+         * @extends CompBase
+         * @param {Object} conf 配置对象
+         * @param {Object} conf.dom 渲染容器，jquery dom对象
+         * @param {String} conf.labelField label显示列名
+         * @param {String} conf.valueField value显示列名
+         * @param {String | String[]} [conf.value=''] value值，可为字符串或者数组
+         * @param {Boolean} [conf.multiSel=false] 是否多选
+         * @param {Number} [conf.width=0] 宽度
+         * @since 0.1
+         * @author JJF
+         */
         combo: 'create'
     })
 });

@@ -1,7 +1,7 @@
 'use strict'
 /**
- * 在类上增加create和register方法
- *
+ * @module core/register
+ * @description eui注册器，可调用该组件往最终的eui对象上绑定特定的方法，如实例化方法等。
  * @since 0.1
  * @author JJF
  */
@@ -10,6 +10,15 @@ define([], function() {
 
     var instanceCache = {}; //根据id缓存所有创建的对象
 
+    /** 
+     * @method create
+     * @inner
+     * @private
+     * @description 对象实例化方法(内部函数)
+     * @param {Function} clz 类
+     * @param {Object[]} [args=undefined] 调用构造函数时传入的参数集合
+     * @return {Object}  clz对应的实例化对象
+     */
     var create = function(clz, args) {
         function F() {
             var index;
@@ -30,6 +39,14 @@ define([], function() {
         return instance;
     }
 
+    /** 
+     * @method reg
+     * @description 注册器
+     * @param {Function} clz 待注册的类
+     * @param {Object} [registerPair=undefined] 需要注册的方法集合
+     * @param {Function | String} registerPair.x 可自定义添加方法，如果值为create，则自动转为构造函数
+     * @return {Function}  clz 类
+     */
     var reg = function(clz, registerPair) {
         $.extend(clz, {
             create: function() { // 直接得到对象方法
@@ -59,6 +76,12 @@ define([], function() {
         return clz
     }
 
+    /** 
+     * @method getObj
+     * @description 根据id获取对象
+     * @param {String} id id
+     * @return {Object}  对象，找不到时返回undefined
+     */
     reg.getObj = function(id) {
         return instanceCache[id]
     }

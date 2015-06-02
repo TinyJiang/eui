@@ -1,3 +1,5 @@
 eui.sublime-project
 eui.sublime-workspace
 dist
+jsdoc
+node_modules

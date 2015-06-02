@@ -1,7 +1,7 @@
 'use strict'
 /**
- * 事件驱动器(默认所有组件均加载事件驱动)
- *
+ * @module core/eventful
+ * @description 事件驱动组件
  * @since 0.1
  * @author JJF
  */
@@ -11,7 +11,21 @@ define(['eui/utils/exception', 'eui/utils/string'], function(e, string) {
         SIZE_KEY: '__size'
     };
     var events_proto = {
-        on: function(event_name, callbackName, /*可选参数*/ callback) {
+        /** 
+         * @method on
+         * @description 为对象添加事件监听
+         * @param {String} eventName 事件名称
+         * @param {String} [callbackName=undefined] 回调名称，为空时自动生成一个不重复的名称
+         * @param {requestCallback} callback 回调函数
+         * @return {Object} 当前对象，支持链式调用
+         */
+
+        /**
+         * callback 回调函数
+         * @callback requestCallback
+         * @param {Object[]} arguments fire事件时传入的arguments，各自事件定义
+         */
+        on: function(event_name, callbackName, callback) {
             var me = this,
                 autoCallbackName = false; //自动生成名称
             if (!callback) {
@@ -54,6 +68,13 @@ define(['eui/utils/exception', 'eui/utils/string'], function(e, string) {
             }
             return me
         },
+        /** 
+         * @method off
+         * @description 删除对象事件监听
+         * @param {String} eventName 事件名称
+         * @param {String} [callbackName=undefined] 回调名称，为空时删除该事件的所有监听
+         * @return {Object} 当前对象，支持链式调用
+         */
         off: function(event_name, callbackName) {
             var me = this,
                 events = me._getCache(CACHE_KEYS.EVENT_BIND, event_name);
@@ -71,6 +92,14 @@ define(['eui/utils/exception', 'eui/utils/string'], function(e, string) {
             }
             return me
         },
+        /** 
+         * @method fire
+         * @description 触发事件监听
+         * @param {String} eventName 事件名称
+         * @param {String} [callbackName=undefined] 回调名称，为空时触发该事件的所有监听
+         * @param {Object[]} [args=undefined] 触发回调函数传入的参数集合
+         * @return {Object} 当前对象，支持链式调用
+         */
         fire: function(event_name, callbackName, /*可选参数*/ args) {
             var me = this,
                 events = me._getCache(CACHE_KEYS.EVENT_BIND, event_name),
@@ -95,6 +124,11 @@ define(['eui/utils/exception', 'eui/utils/string'], function(e, string) {
 
             return me
         },
+        /** 
+         * @method _initEvents
+         * @private
+         * @description 初始化事件，实例化对象时会自动读取events配置，将监听绑定至该对象
+         */
         _initEvents: function() {
             var me = this,
                 c = me.getConf(),

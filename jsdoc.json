@@ -1,0 +1,35 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc", "closure"]
+    },
+    "source": {
+        "include": ["src"],
+        "includePattern": ".+\\.js(doc)?$"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "opts": {
+        "encoding": "utf8", // same as -e utf8
+        "destination": "./jsdoc/", // same as -d ./out/
+        "recurse": true, // same as -r
+        "private": false
+    },
+    "templates": {
+        "systemName": "eui",
+        "footer": "footer",
+        "copyright": "copyright",
+        "navType": "vertical",
+        "theme": "cerulean",
+        "linenums": "true",
+        "collapseSymbols": "true",
+        "outputSourceFiles": "true",
+        "outputSourcePath": "true",
+        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+        "highlightTutorialCode": "true",
+        "syntaxTheme": "default"
+    }
+}

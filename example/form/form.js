@@ -53,5 +53,10 @@ define(['eui/eui'], function(eui) {
             console.log('starttime:' + starttime.getValue());
             console.log('endtime:' + endtime.getValue());
         })
+        $('#set-btn').on('click', function() {
+            starttime.setValue('2015-05-10 12:00:00');
+            endtime.setValue(new Date());
+        })
+
     });
 })

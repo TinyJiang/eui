@@ -1,13 +1,4 @@
 'use strict'
-/**
- * 分页组件：分页使用
- * @event pagechange(pageNo,oriPageNo)页变换
- * @event pagechangeend(pageNo)页变换数据加载完成
- *
- * @since 0.1
- * @author JJF
- */
-
 define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils', 'text!eui/template/paging/paging.html'],
     function(UiBase, clz, register, utils, template) {
         /** ----------------公共参数、方法-----------------* */
@@ -35,7 +26,13 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
                 var total = loader.findData(c.totalPath);
                 total = total ? (1 * total) : 0;
                 _paging._bindCache(CACHE_KEYS.TOTAL, total);
-                _paging.fire('pagechangeend', [_paging._getCache(CACHE_KEYS.CURRENT)]);
+                /**
+                 * @event pagechanged
+                 * @memberOf paging
+                 * @description 分页切换完成（数据加载完成）触发
+                 * @param {Number} pageNo 当前页码
+                 */
+                _paging.fire('pagechanged', [_paging._getCache(CACHE_KEYS.CURRENT)]);
                 render(_paging);
             });
 
@@ -82,6 +79,13 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
                 return
             }
             _paging._bindCache(CACHE_KEYS.CURRENT, page);
+            /**
+             * @event pagechange
+             * @memberOf paging
+             * @description 分页切换触发
+             * @param {Number} pageNo 当前页码
+             * @param {Number} oriPageNo 跳转前页码
+             */
             _paging.fire('pagechange', [page, current]);
             loader.load({
                 start: (page - 1) * c.pageSize,
@@ -169,6 +173,19 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
             }
         });
         return register(Paging, {
+            /**
+             * @constructor paging
+             * @desc 分页控件，挂载至eui.paging
+             * @extends CompBase
+             * @param {Object} conf 配置对象
+             * @param {Object} conf.dom 渲染容器，jquery dom对象
+             * @param {Number} [conf.pageSize=20] 分页条数
+             * @param {String} [conf.totalPath='data.total'] total获取路径
+             * @param {String} [conf.align='center'] 对其方式
+             * @param {loader} conf.loader 数据加载器
+             * @since 0.1
+             * @author JJF
+             */
             paging: 'create'
         })
     });

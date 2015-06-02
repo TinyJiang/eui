@@ -1,28 +1,11 @@
 'use strict'
-/**
- * Tree组件
- *
- * @event init()初始化结束
- * @event select(nodeRecord) 选中
- * @event unselect(nodeRecord) 取消选中
- * @event nodeclick(nodeRecord)单击node
- * @event expandNode(nodeRecord)展开node
- * @event collapseNode(nodeRecord)收缩node
- *
- * @since 0.1
- * @author JJF
- */
 define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader', 'eui/core/register', 'eui/comps/tree/treenode', 'text!eui/template/tree/tree.html'],
     function(clz, CompBase, utils, loader, register, treenode, template) {
         /** ----------------公共参数、方法-----------------* */
         var defaultConf = {
                 labelIndex: 'label',
-                showRoot: false,
                 multiSel: false,
-                autoExpand: false,
-                root: {
-                    label: 'root'
-                }
+                autoExpand: false
             },
             CACHE_KEYS = {
                 SELECTIONS: 'SELECTIONS',
@@ -39,12 +22,30 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 tree: _tree,
                 events: {
                     expand: function(node) {
+                        /**
+                         * @event expandNode
+                         * @memberOf tree
+                         * @description 展开node
+                         * @param {treenode} node
+                         */
                         _tree.fire('expandNode', [node]);
                     },
                     collapse: function(node) {
+                        /**
+                         * @event collapseNode
+                         * @memberOf tree
+                         * @description 收缩node
+                         * @param {treenode} node
+                         */
                         _tree.fire('collapseNode', [node]);
                     },
                     select: function(node) {
+                        /**
+                         * @event selectNode
+                         * @memberOf tree
+                         * @description 选中node
+                         * @param {treenode} node
+                         */
                         _tree.fire('selectNode', [node]);
                     }
                 }
@@ -116,7 +117,21 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 bindEvents(me);
                 return [c]
             },
-            proto: {
+            proto:
+            /** @lends tree.prototype */
+            {
+                /**
+                 * @desc 获取数据加载器
+                 * @see loader
+                 * @return {Object}  loader
+                 */
+                getLoader: function() {
+                    return this.getConf().loader
+                },
+                /**
+                 * @desc 获取当前选中的records
+                 * @return {record[]} 当前选中的records
+                 */
                 getSelection: function() {
                     var cache = this._getCache(CACHE_KEYS.SELECTIONS),
                         sels = [];
@@ -127,15 +142,34 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                     }
                     return sels
                 },
+                /**
+                 * @desc 获取所有一级node节点
+                 * @return {treenode[]} 所有一级node节点
+                 */
                 getNodes: function() {
                     return this._getCache(CACHE_KEYS.NODES)
                 },
+                /**
+                 * @private
+                 * @desc 增加选中
+                 * @param {treenode} node
+                 */
                 _addSelection: function(node) {
                     this._bindCache(CACHE_KEYS.SELECTIONS, node.getId(), node);
                 },
+                /**
+                 * @private
+                 * @desc 取消选中
+                 * @param {treenode} node
+                 */
                 _removeSelection: function(node) {
                     this._unbindCache(CACHE_KEYS.SELECTIONS, node.getId());
                 },
+                /**
+                 * @private
+                 * @desc 清空选中
+                 * @param {treenode} node
+                 */
                 _clearSelection: function() {
                     var sels = this.getSelection();
                     $.each(sels, function(i, node) {
@@ -147,6 +181,19 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
         });
 
         return register(Tree, {
+            /**
+             * @constructor tree
+             * @desc tree组件，挂载至eui.tree
+             * @extends CompBase
+             * @param {Object} conf 配置对象
+             * @param {loader} conf.loader 数据加载器
+             * @param {Object} conf.dom 渲染容器，jquery dom对象
+             * @param {String} conf.labelIndex label字段
+             * @param {Boolean} [conf.multiSel=false] 是否多选
+             * @param {Boolean} [conf.autoExpand=false] 是否自动展开
+             * @since 0.1
+             * @author JJF
+             */
             tree: 'create'
         })
 
