@@ -1,0 +1,20 @@
+<div class="eui-grid-editor euigrid">
+	<table class="table" style="margin-bottom:0px">
+		<tr>
+			<td>
+				<div style="width:50px;"></div>
+			</td>
+			{{#columns}}
+			<td>
+				<div style="width:{{width}}px;"><input id="{{id}}" style="text-align: {{align}};" value="{{&value}}"/></div>
+			</td>
+			{{/columns}}
+		</tr>
+	</table>
+	<div class="submitor">
+		<button class="btn btn-primary" name="submit">
+			<i class="fa fa-check"></i> 确定
+		</button>
+		<button class="btn btn-default" name="cancel"><i class="fa fa-times"></i> 取消</button>
+	</div>
+</div>

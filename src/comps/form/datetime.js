@@ -50,7 +50,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
         d.on('dp.change', function(e) {
             /**
              * @event change
-             * @memberOf datetime
+             * @memberOf comps.form.Datetime
              * @description 选择修改时间触发
              * @param {String} dateString 选中的时间值
              */
@@ -84,7 +84,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             bindEvents(me);
         },
         proto:
-        /** @lends datetime.prototype */
+        /** @lends comps.form.Datetime.prototype */
         {
             /**
              * @desc 获取当前值
@@ -152,9 +152,10 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
 
     return register(DateTime, {
         /**
-         * @constructor datetime
+         * @constructor Datetime
+         * @memberof comps.form
          * @desc 时间选择组件，挂载至eui.datetime
-         * @extends CompBase
+         * @extends base.CompBase
          * @param {Object} conf 配置对象
          * @param {Object} conf.dom 渲染容器，jquery dom对象
          * @param {Object} conf.timeConf 时间控件配置 见http://eonasdan.github.io/bootstrap-datetimepicker/Options/

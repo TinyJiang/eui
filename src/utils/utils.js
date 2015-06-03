@@ -1,6 +1,7 @@
 'use strict'
 /**
- * @module utils/utils
+ * @module utils
+ * @memberof utils
  * @description 工具集
  * @since 0.1
  * @author JJF

@@ -24,27 +24,27 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                     expand: function(node) {
                         /**
                          * @event expandNode
-                         * @memberOf tree
+                         * @memberOf comps.tree.Tree
                          * @description 展开node
-                         * @param {treenode} node
+                         * @param {comps.tree.Treenode} node
                          */
                         _tree.fire('expandNode', [node]);
                     },
                     collapse: function(node) {
                         /**
                          * @event collapseNode
-                         * @memberOf tree
+                         * @memberOf comps.tree.Tree
                          * @description 收缩node
-                         * @param {treenode} node
+                         * @param {comps.tree.Treenode} node
                          */
                         _tree.fire('collapseNode', [node]);
                     },
                     select: function(node) {
                         /**
                          * @event selectNode
-                         * @memberOf tree
+                         * @memberOf comps.tree.Tree
                          * @description 选中node
-                         * @param {treenode} node
+                         * @param {comps.tree.Treenode} node
                          */
                         _tree.fire('selectNode', [node]);
                     }
@@ -118,19 +118,18 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 return [c]
             },
             proto:
-            /** @lends tree.prototype */
+            /** @lends comps.tree.Tree.prototype */
             {
                 /**
                  * @desc 获取数据加载器
-                 * @see loader
-                 * @return {Object}  loader
+                 * @return {data.Loader}  loader
                  */
                 getLoader: function() {
                     return this.getConf().loader
                 },
                 /**
                  * @desc 获取当前选中的records
-                 * @return {record[]} 当前选中的records
+                 * @return {data.Record[]} 当前选中的records
                  */
                 getSelection: function() {
                     var cache = this._getCache(CACHE_KEYS.SELECTIONS),
@@ -144,7 +143,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 },
                 /**
                  * @desc 获取所有一级node节点
-                 * @return {treenode[]} 所有一级node节点
+                 * @return {comps.tree.Treenode[]} 所有一级node节点
                  */
                 getNodes: function() {
                     return this._getCache(CACHE_KEYS.NODES)
@@ -152,7 +151,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 /**
                  * @private
                  * @desc 增加选中
-                 * @param {treenode} node
+                 * @param {comps.tree.Treenode} node
                  */
                 _addSelection: function(node) {
                     this._bindCache(CACHE_KEYS.SELECTIONS, node.getId(), node);
@@ -160,7 +159,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 /**
                  * @private
                  * @desc 取消选中
-                 * @param {treenode} node
+                 * @param {comps.tree.Treenode} node
                  */
                 _removeSelection: function(node) {
                     this._unbindCache(CACHE_KEYS.SELECTIONS, node.getId());
@@ -168,7 +167,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 /**
                  * @private
                  * @desc 清空选中
-                 * @param {treenode} node
+                 * @param {comps.tree.Treenode} node
                  */
                 _clearSelection: function() {
                     var sels = this.getSelection();
@@ -182,11 +181,12 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
 
         return register(Tree, {
             /**
-             * @constructor tree
+             * @constructor Tree
+             * @memberof comps.tree
              * @desc tree组件，挂载至eui.tree
-             * @extends CompBase
+             * @extends base.CompBase
              * @param {Object} conf 配置对象
-             * @param {loader} conf.loader 数据加载器
+             * @param {data.Loader} conf.loader 数据加载器
              * @param {Object} conf.dom 渲染容器，jquery dom对象
              * @param {String} conf.labelIndex label字段
              * @param {Boolean} [conf.multiSel=false] 是否多选

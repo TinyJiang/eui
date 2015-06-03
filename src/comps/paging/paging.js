@@ -28,7 +28,7 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
                 _paging._bindCache(CACHE_KEYS.TOTAL, total);
                 /**
                  * @event pagechanged
-                 * @memberOf paging
+                 * @memberOf comps.paging.Paging
                  * @description 分页切换完成（数据加载完成）触发
                  * @param {Number} pageNo 当前页码
                  */
@@ -81,7 +81,7 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
             _paging._bindCache(CACHE_KEYS.CURRENT, page);
             /**
              * @event pagechange
-             * @memberOf paging
+             * @memberOf comps.paging.Paging
              * @description 分页切换触发
              * @param {Number} pageNo 当前页码
              * @param {Number} oriPageNo 跳转前页码
@@ -174,15 +174,16 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
         });
         return register(Paging, {
             /**
-             * @constructor paging
+             * @constructor Paging
+             * @memberof comps.paging
              * @desc 分页控件，挂载至eui.paging
-             * @extends CompBase
+             * @extends base.CompBase
              * @param {Object} conf 配置对象
              * @param {Object} conf.dom 渲染容器，jquery dom对象
              * @param {Number} [conf.pageSize=20] 分页条数
              * @param {String} [conf.totalPath='data.total'] total获取路径
              * @param {String} [conf.align='center'] 对其方式
-             * @param {loader} conf.loader 数据加载器
+             * @param {data.Loader} conf.loader 数据加载器
              * @since 0.1
              * @author JJF
              */

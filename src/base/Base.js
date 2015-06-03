@@ -1,7 +1,7 @@
 'use strict'
 /**
- * Base.js
  * @class Base
+ * @memberof base
  * @description 所有类的基类，自动对所有类添加cache特性以及eventful特性，所有类里都将会有这两个feature中的所有方法
  * @see cache
  * @see eventful
@@ -13,7 +13,7 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
         var Base = clz.define({
             name: 'Base',
             /** 
-             * @memberOf Base
+             * @memberOf base.Base
              * @private
              * @method preConstructor
              * @description 构造方法，父类构造方法执行之前调用
@@ -26,14 +26,14 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                 me._initEvents();
                 /**
                  * @event init
-                 * @memberOf Base
+                 * @memberOf base.Base
                  * @description 初始化开始时触发
                  */
                 me.fire('init');
                 return [c]
             },
             /** 
-             * @memberOf Base
+             * @memberOf base.Base
              * @private
              * @method afterConstructor
              * @description 构造方法，父类构造方法执行之后调用
@@ -44,17 +44,17 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
 
                 /**
                  * @event inited
-                 * @memberOf Base
+                 * @memberOf base.Base
                  * @description 初始化结束时触发
                  */
                 this.fire('inited');
                 return [c]
             },
-            proto: {
+            proto:
+            /** @lends base.Base.prototype */
+            {
                 /** 
-                 * @memberOf Base.prototype
                  * @private
-                 * @method _bindConf
                  * @description 绑定配置
                  */
                 _bindConf: function(conf) {
@@ -62,8 +62,6 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return this
                 },
                 /** 
-                 * @memberOf Base.prototype
-                 * @method getConf
                  * @description 获取配置
                  * @return {Object} 用户传入的config配置对象
                  */
@@ -71,9 +69,7 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return this._conf
                 },
                 /** 
-                 * @memberOf Base.prototype
                  * @private
-                 * @method _initId
                  * @description 初始化id
                  * @return {String} id
                  */
@@ -86,8 +82,6 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return id
                 },
                 /** 
-                 * @memberOf Base.prototype
-                 * @method isInited
                  * @description 是否已初始化完成
                  * @return {Boolean}
                  */
@@ -95,8 +89,6 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return !!this._getCache('__inited')
                 },
                 /** 
-                 * @memberOf Base.prototype
-                 * @method getId
                  * @description 获取id
                  * @return {String} id
                  */
@@ -104,8 +96,6 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return this.getConf().id;
                 },
                 /** 
-                 * @memberOf Base.prototype
-                 * @method isObjOf
                  * @description 判断当前对象是否是某个eui类的对象
                  * @param {Class} clz eui类
                  * @return {Boolean}
@@ -114,16 +104,12 @@ define(['eui/core/clz', 'eui/utils/utils', 'eui/core/eventful', 'eui/core/cache'
                     return this.constructor._class == clz._class //鸭子比较－ －
                 },
                 /** 
-                 * @memberOf Base.prototype
-                 * @method destroy
                  * @description 销毁对象
                  */
                 destroy: function() {
                     this._bindCache('destroyed', true);
                 },
                 /** 
-                 * @memberOf Base.prototype
-                 * @method isDestroyed
                  * @description 判断该对象是否已被销毁
                  * @return {Boolean}
                  */

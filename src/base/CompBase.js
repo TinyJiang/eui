@@ -1,8 +1,8 @@
 'use strict'
 /**
- * CompBase.js
  * @class CompBase
- * @extends UiBase
+ * @memberof base
+ * @extends base.UiBase
  * @description 组件基类，增加mask等基础方法
  * @see mask
  * @since 0.1
@@ -13,10 +13,10 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/effects/mask'], function(UiBase,
     var CompBase = clz.define({
         name: 'CompBase',
         parent: UiBase,
-        proto: {
+        proto:
+        /** @lends base.CompBase.prototype */
+        {
             /** 
-             * @memberOf CompBase.prototype
-             * @method controlLoadMask
              * @param {Boolean} [isShow=true] 为true时显示mask，false时隐藏mask
              * @description 控制当前组件上的mask隐藏，显示
              * @return {Object} 当前对象

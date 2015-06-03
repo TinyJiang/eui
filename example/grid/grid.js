@@ -12,10 +12,14 @@ define(['eui/eui'], function(eui) {
         totalPath: 'data.total',
         loader: loader
     });
+    var editor = eui.grideditor({
+        enabled: false
+    });
     var grid = eui.grid({
         dom: $('#tb'),
         multiSel: true,
         loader: loader,
+        plugins: [editor],
         columns: [{
             header: 'ID',
             index: 'id',
@@ -64,7 +68,6 @@ define(['eui/eui'], function(eui) {
         } else {
             console.log('unselect line ' + linedata.lineIndex);
         }
-
     }).on('cellclick', function(data, e) {
         console.log(data);
         console.log('click line ' + data.lineIndex + ' cell ' + data.cellIndex);
@@ -77,5 +80,16 @@ define(['eui/eui'], function(eui) {
 
     $('#getCurrentSel').on('click', function() {
         console.log(grid.getCurrentSel());
+    });
+
+    $('#startEdit').on('click', function() {
+        editor.enable()
+    });
+
+    $('#submitEdit').on('click', function() {
+        var changed = loader.getChanged();
+        console.log(changed);
+        loader.clearChanged();
+        editor.disable();
     });
 })

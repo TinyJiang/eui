@@ -1,6 +1,7 @@
 'use strict'
 /**
- * @module core/register
+ * @module register
+ * @memberof core
  * @description eui注册器，可调用该组件往最终的eui对象上绑定特定的方法，如实例化方法等。
  * @since 0.1
  * @author JJF

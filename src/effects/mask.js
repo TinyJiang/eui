@@ -66,7 +66,9 @@ define(['eui/utils/exception', 'eui/base/UiBase', 'eui/core/clz', 'eui/core/regi
                 })
                 return [c]
             },
-            proto: {
+            proto:
+            /** @lends effects.Mask.prototype */
+            {
                 updateText: function() { //text mask专用
 
                 },
@@ -81,9 +83,10 @@ define(['eui/utils/exception', 'eui/base/UiBase', 'eui/core/clz', 'eui/core/regi
 
         return register(Mask, {
             /**
-             * @constructor mask
+             * @constructor Mask
+             * @memberof effects
              * @desc 控制dom mask效果，挂载至eui.mask(conf)
-             * @extends UiBase
+             * @extends base.UiBase
              * @since 0.1
              * @author JJF
              * @param {Object} conf 配置

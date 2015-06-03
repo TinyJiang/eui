@@ -72,7 +72,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
         _combo.setValue(_vals);
         /**
          * @event select
-         * @memberOf combo
+         * @memberOf comps.form.Combo
          * @description 选项修改触发
          * @param {String} v 当前修改的v值
          * @param {String[]} vals 修改之后的vals
@@ -120,12 +120,11 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             bindEvents(me);
         },
         proto:
-        /** @lends combo.prototype */
+        /** @lends comps.form.Combo.prototype */
         {
             /**
              * @desc 获取数据加载器
-             * @see loader
-             * @return {Object}  loader
+             * @return {data.Loader}  loader
              */
             getLoader: function() {
                 return this.getConf().loader
@@ -179,7 +178,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             },
             /**
              * @desc 获取当前值所在的record
-             * @return {record | record[]} 返回record(单选模式)或者record数组(多选模式)
+             * @return {data.Record | data.Record[]} 返回record(单选模式)或者record数组(多选模式)
              */
             getRecords: function() {
                 var _v = this._getCache(CACHE_KEYS.CURRENT_VALUE),
@@ -201,9 +200,10 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
 
     return register(Combo, {
         /**
-         * @constructor combo
+         * @constructor Combo
+         * @memberof comps.form
          * @desc COMBO下拉框组件，挂载至eui.combo
-         * @extends CompBase
+         * @extends base.CompBase
          * @param {Object} conf 配置对象
          * @param {Object} conf.dom 渲染容器，jquery dom对象
          * @param {String} conf.labelField label显示列名

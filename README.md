@@ -1,4 +1,4 @@
-# eui
+## OVERVIEW
 
 eui是`事件驱动`的bootstrap前端组件库。
 
@@ -9,11 +9,12 @@ eui是`事件驱动`的bootstrap前端组件库。
 
 ---
 
-## bug或者features
+## BUGS AND FEATURES
 在[ISSUES](http://10.8.132.221:9090/baseframe/eui/issues)提交问题。
 
+---
 
-## HOW TO USE
+## QUICK START
 1. 在jsp中依次加入增加jquery，bootstrap，fontawesome，eui依赖
 2. 定义data－main的js路径
 3. 入口js中eui引用id为"eui/eui"

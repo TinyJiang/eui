@@ -6,6 +6,7 @@
  */
 define(['eui/utils/utils',
         'eui/comps/grid/grid',
+        'eui/comps/grid/plugins/editor',
         'eui/comps/tree/tree',
         'eui/comps/tree/treenode',
         'eui/effects/mask',
@@ -19,6 +20,7 @@ define(['eui/utils/utils',
     function(
         utils,
         grid,
+        grideditor,
         tree,
         treenode,
         mask,
@@ -29,20 +31,61 @@ define(['eui/utils/utils',
         window,
         tab
     ) {
+        /**
+         * @namespace base
+         */
+
         var eui = function() {
             this.utils = $.extend({}, utils);
         };
 
+        /**
+         * @namespace comps
+         */
+
+        /**
+         * @namespace grid
+         * @memberof comps
+         */
+
         grid.register(eui.prototype);
-        mask.register(eui.prototype);
-        loader.register(eui.prototype);
+        grideditor.register(eui.prototype);
+
+        /**
+         * @namespace tree
+         * @memberof comps
+         */
+
         tree.register(eui.prototype);
         treenode.register(eui.prototype);
         paging.register(eui.prototype);
+        /**
+         * @namespace form
+         * @memberof comps
+         */
         combo.register(eui.prototype);
         datetime.register(eui.prototype);
+        /**
+         * @namespace window
+         * @memberof comps
+         */
         window.register(eui.prototype);
+        /**
+         * @namespace tab
+         * @memberof comps
+         */
         tab.register(eui.prototype);
+
+        /**
+         * @namespace effects
+         */
+
+        mask.register(eui.prototype);
+
+        /**
+         * @namespace data
+         */
+        loader.register(eui.prototype);
 
         return new eui();
     });

@@ -14,22 +14,19 @@
     },
     "opts": {
         "encoding": "utf8", // same as -e utf8
-        "destination": "./jsdoc/", // same as -d ./out/
+        "destination": "./euidoc/", // same as -d ./out/
         "recurse": true, // same as -r
         "private": false
     },
     "templates": {
         "systemName": "eui",
-        "footer": "footer",
-        "copyright": "copyright",
-        "navType": "vertical",
+        "navType": "inline",
         "theme": "cerulean",
         "linenums": "true",
-        "collapseSymbols": "true",
-        "outputSourceFiles": "true",
-        "outputSourcePath": "true",
+        "collapseSymbols": true,
+        "outputSourceFiles": true,
         "dateFormat": "YYYY-MM-DD HH:mm:ss",
-        "highlightTutorialCode": "true",
+        "highlightTutorialCode": true,
         "syntaxTheme": "default"
     }
 }

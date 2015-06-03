@@ -102,6 +102,23 @@
 	display: none;
 }
 
+.eui-grid-editor{
+	position: absolute;
+	padding-bottom: 10px;
+	border: 1px solid #ddd;
+	background-color: #fff;
+}
+
+.eui-grid-editor td input{
+	width: 90%;
+}
+
+.eui-grid-editor .submitor{
+	text-align: center;
+}
+
+
+
 /* ------------grid---------------- */
 
 

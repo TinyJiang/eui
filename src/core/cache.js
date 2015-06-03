@@ -1,6 +1,7 @@
 'use strict'
 /**
- * @module core/cache
+ * @module cache
+ * @memberof core
  * @description 缓存组件，调用组件会在Class.prototype上注入缓存调用方法
  * @since 0.1
  * @author JJF

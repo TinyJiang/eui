@@ -9,6 +9,12 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 multiSel: false,
                 showCheckBox: undefined //不指定自动按照multiSel生成，强制指定就按照指定的
             },
+            CACHE_KEYS = {
+                LINE: 'LINE',
+                CELL: 'CELL',
+                CURRENTSEL: 'CURRENTSEL',
+                RENDERFN: 'RENDERFN'
+            },
             columnDefault = {
                 align: 'left',
                 render: function(val) {
@@ -32,6 +38,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 columns = conf.columns,
                 d = _grid.getDom(),
                 total = d.innerWidth(),
+                renderFn = {}, //渲染方法
                 dataColumns = []; //真正展现数据的列
 
             var _used = 0,
@@ -79,6 +86,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                         c.rowspan = headRows - rowIndex + 1;
                         c.colspan = 1;
                         c.width = c.width ? c.width : 80; //默认80宽度
+                        renderFn[c.index] = c.render;
                         dataColumns.push(c);
                     }
                     _newColumns.push(c);
@@ -89,6 +97,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
 
             conf.dataColumns = dataColumns;
             conf.headRows = headRows;
+            _grid._bindCache(CACHE_KEYS.RENDERFN, renderFn);
             return columns
         }
 
@@ -98,6 +107,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 conf = _grid.getConf(),
                 columns = conf.columns,
                 dataColumns = conf.dataColumns,
+                renderFn = _grid._getCache(CACHE_KEYS.RENDERFN),
                 renderObj = {
                     id: conf.id,
                     type: conf.type,
@@ -144,12 +154,12 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     id: lineid,
                     columns: []
                 };
-                _grid._bindCache('line', lineid, {
+                _grid._bindCache(CACHE_KEYS.LINE, lineid, {
                     lineIndex: i,
                     lineData: record
                 });
                 $.each(dataColumns, function(j, c) {
-                    var cellid = line.id + '-' + j;
+                    var cellid = line.id + '-' + c.index;
                     line.columns.push({
                         id: cellid,
                         value: c
@@ -157,7 +167,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                         align: c.align,
                         width: c.width
                     });
-                    _grid._bindCache('cell', cellid, {
+                    _grid._bindCache(CACHE_KEYS.CELL, cellid, {
                         lineIndex: i,
                         cellIndex: j,
                         lineData: record,
@@ -166,6 +176,10 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     });
                 });
                 renderObj.datas.push(line);
+                record.on('datachange', function(k, v) { //mv绑定
+                    var fn = renderFn[k];
+                    $('#' + line.id + '-' + k + ' > div').html(fn ? fn(v) : v);
+                });
             });
             var html = Mustache.render(template, renderObj);
             d.empty().append($(html));
@@ -182,18 +196,18 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                 d = _grid.getDom(),
                 line_id = line
                 .attr('id'),
-                line_data = _grid._getCache('line',
+                line_data = _grid._getCache(CACHE_KEYS.LINE,
                     line_id);
             if (line.hasClass('sel')) { // 选中变未选中
                 line.removeClass('sel');
                 _grid._unbindCache('currentSel', line_id); // 解除选中数据绑定
                 /**
                  * @event unselect
-                 * @memberOf grid
+                 * @memberOf comps.grid.Grid
                  * @description 取消选中触发
                  * @param {Object} lineData 行值
                  * @param {Number} lineData.lineIndex 行号，从0开始
-                 * @param {record} lineData.lineData 所在行的record
+                 * @param {data.Record} lineData.lineData 所在行的record
                  * @param {EventObject} e 事件对象
                  */
                 _grid.fire('unselect', [line_data, e]); // 触发unselect事件
@@ -204,14 +218,14 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     _grid._clearCache('currentSel'); // 清除所有选中
                 }
                 line.addClass('sel');
-                _grid._bindCache('currentSel', line_id, line_data); // 添加当前选中数据
+                _grid._bindCache(CACHE_KEYS.CURRENTSEL, line_id, line_data); // 添加当前选中数据
                 /**
                  * @event select
-                 * @memberOf grid
+                 * @memberOf comps.grid.Grid
                  * @description 选中触发
                  * @param {Object} lineData 行值
                  * @param {Number} lineData.lineIndex 行号，从0开始
-                 * @param {record} lineData.lineData 所在行的record
+                 * @param {data.Record} lineData.lineData 所在行的record
                  * @param {EventObject} e 事件对象
                  */
                 _grid.fire('select', [line_data, e]); // 触发select事件
@@ -239,22 +253,21 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     cell_id = this.id;
                 if (cell_id.lastIndexOf('check') != cell_id.length - 5) {
                     var cell_data = _grid
-                        ._getCache('cell', cell_id);
+                        ._getCache(CACHE_KEYS.CELL, cell_id);
                     /**
                      * @event cellclick
-                     * @memberOf grid
+                     * @memberOf comps.grid.Grid
                      * @description 点击cell触发
                      * @param {Object} cellData cell值对象
                      * @param {Number} cellData.lineIndex 行号，从0开始
                      * @param {Number} cellData.cellIndex 列号，从0开始
                      * @param {String} cellData.cellData 列值
                      * @param {String} cellData.cellIndex 列index
-                     * @param {record} cellData.lineData 所在行的record
+                     * @param {data.Record} cellData.lineData 所在行的record
                      * @param {EventObject} e 事件对象
                      */
                     _grid.fire('cellclick', [cell_data, e]);
                 }
-
                 // line处理
                 var line = cell.parent();
                 lineClick(e, _grid, line);
@@ -265,7 +278,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     cell_id = this.id;
                 if (cell_id.lastIndexOf('check') == cell_id.length - 5) { //全选
                     var line = cell.parent(),
-                        currentSel = _grid._getCache('currentSel') || {};
+                        currentSel = _grid._getCache(CACHE_KEYS.CURRENTSEL) || {};
                     if (line.hasClass('sel')) { //取消全选
                         var currentSelDatas = [];
                         for (var i in currentSel) {
@@ -274,10 +287,10 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                             }
                         };
                         d.find('tr').removeClass('sel');
-                        _grid._bindCache('currentSel', {});
+                        _grid._bindCache(CACHE_KEYS.CURRENTSEL, {});
                         _grid.fire('unselect', [currentSelDatas, e]); // 触发unselect事件
                     } else { //启用全选
-                        var allLine = _grid._getCache('line'),
+                        var allLine = _grid._getCache(CACHE_KEYS.LINE),
                             allLineDatas = [];
                         for (var i in allLine) {
                             if (allLine.hasOwnProperty(i) && !currentSel[i]) {
@@ -285,7 +298,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                             }
                         };
                         d.find('tr').addClass('sel');
-                        _grid._bindCache('currentSel', $.extend({}, allLine));
+                        _grid._bindCache(CACHE_KEYS.CURRENTSEL, $.extend({}, allLine));
                         _grid.fire('select', [allLineDatas, e]); // 触发select事件
                     }
                 }
@@ -318,28 +331,33 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             },
             afterConstructor: function() {
                 var me = this,
-                    c = me.getConf();
+                    c = me.getConf(),
+                    plugins = c.plugins;
                 c.columns = columnGenerate(me);
                 initDom(me);
                 bindEvents(me);
+                if (plugins && plugins.length) {
+                    $.each(plugins, function(i, p) {
+                        p._bindGrid(me);
+                    });
+                }
             },
             proto:
-            /** @lends grid.prototype */
+            /** @lends comps.grid.Grid.prototype */
             {
                 /**
                  * @desc 获取数据加载器
-                 * @see loader
-                 * @return {Object}  loader
+                 * @return {data.Loader}  loader
                  */
                 getLoader: function() {
                     return this.getConf().loader
                 },
                 /**
                  * @desc 获取当前选中的records
-                 * @return {record[]} 当前选中的records
+                 * @return {data.Record[]} 当前选中的records
                  */
                 getCurrentSel: function() {
-                    var currentSel = this._getCache('currentSel'),
+                    var currentSel = this._getCache(CACHE_KEYS.CURRENTSEL),
                         sel = [];
                     if (currentSel) {
                         for (var i in currentSel) {
@@ -353,14 +371,15 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
 
         return register(Grid, {
             /**
-             * @constructor grid
+             * @constructor Grid
+             * @memberof comps.grid
              * @desc grid表格控件，挂载至eui.grid
-             * @extends CompBase
+             * @extends base.CompBase
              * @param {Object} conf 配置对象
              * @param {Object} conf.dom 渲染容器，jquery dom对象
              * @param {Boolean} [conf.multiSel=false] 是否多选
              * @param {Boolean} [conf.showCheckBox=undefined] 是否强制显示或不显示checkbox，不指定自动按照multiSel生成，强制指定就按照指定的
-             * @param {loader} conf.loader 数据加载器
+             * @param {data.Loader} conf.loader 数据加载器
              * @param {Object[]} [conf.columns=[]] 列配置
              * @param {String} conf.columns.header 列头
              * @param {String} conf.columns.index 数据列

@@ -1,6 +1,7 @@
 'use strict'
 /**
- * @module core/clz
+ * @module clz
+ * @memberof core
  * @description oop组件，定义类，关键为实现继承功能
  * @since 0.1
  * @author JJF

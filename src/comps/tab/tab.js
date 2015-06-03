@@ -49,7 +49,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
                     if (id !== _current) {
                         /**
                          * @event switch
-                         * @memberOf tab
+                         * @memberOf comps.tab.Tab
                          * @description tab切换触发
                          * @param {String} id 切换至的tab id
                          */
@@ -84,9 +84,10 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
 
         return register(Tab, {
             /**
-             * @constructor tab
+             * @constructor Tab
+             * @memberof comps.tab
              * @desc tab控件，挂载至eui.tab
-             * @extends CompBase
+             * @extends base.CompBase
              * @param {Object} conf 配置对象
              * @param {Object} conf.dom 渲染容器，jquery dom对象
              * @param {Object[]} [conf.tabs=[]] tab配置

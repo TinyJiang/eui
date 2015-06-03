@@ -1,14 +1,4 @@
 'use strict'
-/**
- * Window组件
- *
- * @event init()初始化结束
- * @event show() 显示
- * @event hide() 隐藏
- * @event contentchange() 内部内容改变
- * @since 0.1
- * @author JJF
- */
 define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/register', 'text!eui/template/window/window.html'],
     function(clz, CompBase, utils, register, template) {
         /** ----------------公共参数、方法-----------------* */
@@ -57,14 +47,14 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
             d.on('shown.bs.modal', function() {
                 /**
                  * @event show
-                 * @memberOf window
+                 * @memberOf comps.window.Window
                  * @description 显示触发
                  */
                 _window.fire('show', []);
             }).on('hidden.bs.modal', function() {
                 /**
                  * @event hide
-                 * @memberOf window
+                 * @memberOf comps.window.Window
                  * @description 隐藏触发
                  */
                 _window.fire('hide', []);
@@ -95,7 +85,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
                 return [c]
             },
             proto:
-            /** @lends treenode.prototype */
+            /** @lends comps.window.Window.prototype */
             {
                 /**
                  * @desc 获取content body
@@ -112,7 +102,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
                     this.getBody().empty().append(dom);
                     /**
                      * @event contentchange
-                     * @memberOf window
+                     * @memberOf comps.window.Window
                      * @description 内容更新触发
                      */
                     this.fire('contentchange', []);
@@ -138,9 +128,10 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/core/regist
 
         return register(Window, {
             /**
-             * @constructor window
+             * @constructor Window
+             * @memberof comps.window
              * @desc window窗口组件，挂载至eui.window
-             * @extends CompBase
+             * @extends base.CompBase
              * @param {Object} conf 配置对象
              * @param {String} conf.title title
              * @param {Number} [conf.width=0] 宽度

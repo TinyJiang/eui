@@ -15,7 +15,8 @@ define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record
                 RECORDS: 'RECORDS_KEY',
                 ORI_DATA: 'ORI_DATA',
                 DATA_CACHE: 'DATA_CACHE',
-                INDEX_DATA: 'INDEX_DATA'
+                INDEX_DATA: 'INDEX_DATA',
+                DATACHANGEDLIST: 'DATACHANGEDLIST'
             };
         /**根据index查找数据*/
         var dataFinder = function(paths, data) {
@@ -52,6 +53,20 @@ define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record
             }
 
             return _recs
+        }
+
+        //绑定数据变化之后事件
+        var bindRecordChangeEvent = function(_loader, recs) {
+            if ($.type(recs) == 'object') {
+                recs = [recs];
+            }
+            if (recs && recs.length) {
+                $.each(recs, function(i, rec) {
+                    rec.on('datachange', function(k, v) {
+                        _loader._bindCache(CACHE_KEYS.DATACHANGEDLIST, rec.getId(), rec)
+                    });
+                });
+            }
         }
 
         /* 转换并绑定数据 */
@@ -96,7 +111,7 @@ define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record
                 data = result;
             }
             rec = parseData(_loader, data);
-
+            bindRecordChangeEvent(_loader, rec);
             /**
              * @event load
              * @memberOf loader
@@ -128,7 +143,7 @@ define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record
                 return [c]
             },
             proto:
-            /** @lends loader.prototype */
+            /** @lends data.Loader.prototype */
             {
                 /** 
                  * @description 加载数据
@@ -231,16 +246,41 @@ define(['eui/utils/exception', 'eui/base/Base', 'eui/core/clz', 'eui/data/record
                 findData: function(path) {
                     var oriData = this.getOriData();
                     return dataFinder(path, oriData);
+                },
+                /** 
+                 * @description 获取有改动的记录
+                 * @return {data.Record[]} 有改动的record集合
+                 */
+                getChanged: function() {
+                    var changed = this._getCache(CACHE_KEYS.DATACHANGEDLIST),
+                        list = [];
+                    for (var i in changed) {
+                        if (changed.hasOwnProperty(i)) {
+                            list.push(changed[i]);
+                        }
+                    }
+                    return list
+                },
+                /** 
+                 * @description 重置有改动的记录集合
+                 */
+                clearChanged: function() {
+                    var changed = this.getChanged();
+                    $.each(changed, function(i, rec) {
+                        rec.persist();
+                    });
+                    this._bindCache(CACHE_KEYS.DATACHANGEDLIST, {});
                 }
             }
         });
 
         return register(Loader, {
             /** 
-             * @constructor loader
+             * @constructor Loader
+             * @memberof data
              * @desc 数据加载器，挂载至eui.loader(conf)
-             * @extends Base
-             * @see record
+             * @extends base.Base
+             * @see data.Record
              * @since 0.1
              * @author JJF
              * @param {Object} conf

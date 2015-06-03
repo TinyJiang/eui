@@ -1,6 +1,7 @@
 'use strict'
 /**
- * @module core/eventful
+ * @module eventful
+ * @memberof core
  * @description 事件驱动组件
  * @since 0.1
  * @author JJF

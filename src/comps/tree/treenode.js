@@ -1,16 +1,4 @@
 'use strict'
-/**
- * 树节点
- *
- * @event init()初始化结束
- * @event expand(treenode)展开
- * @event collapse(treenode)收缩
- * @event select(treenode)选中
- * @event unselect(treenode)取消选中
- *
- * @since 0.1
- * @author JJF
- */
 define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record', 'eui/core/register', 'text!eui/template/tree/treenode.html'],
     function(UiBase, utils, clz, record, register, template) {
         /** ----------------公共参数、方法-----------------* */
@@ -112,18 +100,18 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                 return [c]
             },
             proto:
-            /** @lends treenode.prototype */
+            /** @lends comps.tree.Treenode.prototype */
             {
                 /**
                  * @desc 获取子节点
-                 * @return {treenode[]}  childs
+                 * @return {comps.tree.Treenode[]}  childs
                  */
                 getChildren: function() {
                     return this._getCache(CACHE_KEYS.CHILDREN)
                 },
                 /**
                  * @desc 获取record数据
-                 * @return {record}  rec
+                 * @return {data.Record}  rec
                  */
                 getRecord: function() {
                     return this.getConf().record;
@@ -158,16 +146,16 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                     me._bindCache(CACHE_KEYS.CHECK_FLAG, flag);
                     /**
                      * @event select
-                     * @memberOf treenode
+                     * @memberOf comps.tree.Treenode
                      * @description 选中触发
-                     * @param {treenode} node 树节点
+                     * @param {comps.tree.Treenode} node 树节点
                      */
 
                     /**
                      * @event unselect
-                     * @memberOf treenode
+                     * @memberOf comps.tree.Treenode
                      * @description 取消选中触发
-                     * @param {treenode} node 树节点
+                     * @param {comps.tree.Treenode} node 树节点
                      */
                     me.fire(flag ? 'select' : 'unselect', [me])
                 },
@@ -185,9 +173,9 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                         me.expanded = true;
                         /**
                          * @event expand
-                         * @memberOf treenode
+                         * @memberOf comps.tree.Treenode
                          * @description 展开节点触发
-                         * @param {treenode} node 树节点
+                         * @param {comps.tree.Treenode} node 树节点
                          */
                         me.fire('expand', [me]);
                     }
@@ -221,9 +209,9 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                     me.expanded = false;
                     /**
                      * @event collapse
-                     * @memberOf treenode
+                     * @memberOf comps.tree.Treenode
                      * @description 收缩节点触发
-                     * @param {treenode} node 树节点
+                     * @param {comps.tree.Treenode} node 树节点
                      */
                     me.fire('collapse', [me]);
                 },
@@ -243,14 +231,15 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
 
         return register(TreeNode, {
             /**
-             * @constructor treenode
+             * @constructor Treenode
+             * @memberof comps.tree
              * @desc treenode组件，挂载至eui.treenode，一般由tree自动生成
-             * @extends CompBase
+             * @extends base.CompBase
              * @param {Object} conf 配置对象
              * @param {String} conf.labelIndex label字段
              * @param {Boolean} [conf.autoExpand=false] 是否自动展开
              * @param {Boolean} [conf.multiSel=false] 是否多选
-             * @param {tree} conf.tree tree
+             * @param {comps.tree.Tree} conf.tree tree
              * @since 0.1
              * @author JJF
              */
