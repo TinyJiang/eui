@@ -5,7 +5,7 @@
         "total": 120,
         "data": [{
             "id": "1001",
-            "username": "root",
+            "username": "",
             "fullname": "管理员",
             "status": "true"
         }, {

@@ -79,13 +79,13 @@ define(['eui/base/Base', 'eui/core/clz', 'eui/core/register'], function(Base, cl
              * @param {eachCallback} cb 回调函数
              * @param {Object} [scope=record] 回调执行的scope
              */
-
-            /**
-             * @callback eachCallback
-             * @param {Object} k key值
-             * @param {Object} v value值
-             */
             forEach: function(cb, scope) {
+                /**
+                 * @callback eachCallback
+                 * @memberof data.Record
+                 * @param {Object} k key值
+                 * @param {Object} v value值
+                 */
                 var me = this,
                     data = this.getData();
                 if (data) {

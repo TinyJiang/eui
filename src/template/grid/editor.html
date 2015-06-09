@@ -6,7 +6,10 @@
 			</td>
 			{{#columns}}
 			<td>
-				<div style="width:{{width}}px;"><input id="{{id}}" style="text-align: {{align}};" value="{{&value}}"/></div>
+				<div style="width:{{width}}px;">
+					<input class = "{{showEdit}}" id="{{id}}" style="text-align: {{align}};" value="{{&value}}"/>
+					<span class = "{{hideEdit}}">{{&value}}</span>
+				</div>
 			</td>
 			{{/columns}}
 		</tr>

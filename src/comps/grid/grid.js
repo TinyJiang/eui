@@ -200,7 +200,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     line_id);
             if (line.hasClass('sel')) { // 选中变未选中
                 line.removeClass('sel');
-                _grid._unbindCache('currentSel', line_id); // 解除选中数据绑定
+                _grid._unbindCache(CACHE_KEYS.CURRENTSEL, line_id); // 解除选中数据绑定
                 /**
                  * @event unselect
                  * @memberOf comps.grid.Grid
@@ -215,7 +215,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
             } else { // 未选中变选中
                 if (!c.multiSel) {
                     d.find('tr.sel').removeClass('sel');
-                    _grid._clearCache('currentSel'); // 清除所有选中
+                    _grid._clearCache(CACHE_KEYS.CURRENTSEL); // 清除所有选中
                 }
                 line.addClass('sel');
                 _grid._bindCache(CACHE_KEYS.CURRENTSEL, line_id, line_data); // 添加当前选中数据
@@ -384,6 +384,7 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
              * @param {String} conf.columns.header 列头
              * @param {String} conf.columns.index 数据列
              * @param {String} conf.columns.align 对齐方式
+             * @param {Boolean} conf.columns.editable 使用editor插件时是否可编辑
              * @param {Number} conf.columns.flex 百分比宽度，计算方式(flex值/总flex值)(容器总宽度-总固定宽度)
              * @param {Number} [conf.columns.width=80] 宽度
              * @param {Function} [conf.columns.render=undefined] 渲染显示值方法，参数为v

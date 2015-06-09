@@ -13,7 +13,12 @@ define(['eui/eui'], function(eui) {
         loader: loader
     });
     var editor = eui.grideditor({
-        enabled: false
+        enabled: false,
+        events: {
+            editcomplete: function(record) {
+                console.log(record);
+            }
+        }
     });
     var grid = eui.grid({
         dom: $('#tb'),
@@ -24,7 +29,8 @@ define(['eui/eui'], function(eui) {
             header: 'ID',
             index: 'id',
             align: 'center',
-            width: 40
+            width: 40,
+            editable: false
         }, {
             header: '名字',
             align: 'center',

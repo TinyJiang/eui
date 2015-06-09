@@ -8,7 +8,8 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                 EDITORDOM: 'EDITORDOM',
                 CURRENTRECORD: 'CURRENTRECORD',
                 GRID: 'grid',
-                ENABLED: 'enabled'
+                ENABLED: 'enabled',
+                DISABLEDCOLUMNS: 'DISABLEDCOLUMNS'
             };
 
         var findTr = function(node) {
@@ -48,6 +49,13 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                             input = $(input);
                             record.set(input.attr('id').substr(grid.getId().length + 8), input.val());
                         })
+                        /**
+                         * @event editcomplete
+                         * @memberOf comps.grid.GridEditor
+                         * @description 编辑完成事件
+                         * @param {data.Record} 所在行的record
+                         */
+                        _editor.fire('editcomplete', [record]);
                     } else if (name == 'cancel') {
                         setEditorValue(_editor, record);
                     }
@@ -56,9 +64,10 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
             }
 
             grid.on('cellclick', function(cellData, e) {
-                var tr, columns, record, editor, renderObj = {
-                    columns: []
-                };
+                var tr, columns, record, editor, disabledColumns = _editor._getCache(CACHE_KEYS.DISABLEDCOLUMNS),
+                    renderObj = {
+                        columns: []
+                    };
                 if (_editor.isEnabled()) {
                     tr = findTr(e.target), record = cellData.lineData;
                     if (tr) {
@@ -74,7 +83,9 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                                     id: grid.getId() + '-editor-' + c.index,
                                     value: record.get(c.index),
                                     align: c.align,
-                                    width: c.width
+                                    width: c.width,
+                                    showEdit: disabledColumns[c.index] ? 'hide' : '',
+                                    hideEdit: disabledColumns[c.index] ? '' : 'hide',
                                 })
                             });
                             editor = utils.renderTpl(template, renderObj);
@@ -90,6 +101,18 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                     }
                 }
             });
+        };
+
+        var initColumns = function(_editor) {
+            var grid = _editor[CACHE_KEYS.GRID],
+                columns = grid.getConf().dataColumns,
+                disabledColumns = {};
+            $.each(columns, function(i, c) {
+                if (c.editable === false) {
+                    disabledColumns[c.index] = true;
+                }
+            });
+            _editor._bindCache(CACHE_KEYS.DISABLEDCOLUMNS, disabledColumns);
         };
 
         var startEditor = function(lineDom) {};
@@ -114,6 +137,7 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                 _bindGrid: function(_grid) {
                     this[CACHE_KEYS.GRID] = _grid;
                     bindEvents(this);
+                    initColumns(this);
                 },
                 /**
                  * @desc 启用控件
