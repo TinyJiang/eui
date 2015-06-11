@@ -32,7 +32,12 @@ define(['eui/eui'], function(eui) {
             labelField: 'n',
             valueField: 'v',
             value: 'value1,value2',
-            loader: loader
+            loader: loader,
+            events: {
+                select: function(v) {
+                    console.log(v)
+                }
+            }
         });
 
         var starttime = eui.datetime({

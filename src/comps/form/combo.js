@@ -93,7 +93,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             renderObj.list.push({
                 label: rec.get(c.labelField),
                 value: rec.get(c.valueField),
-                id: rec.get('id')
+                id: rec.getId()
             });
         });
         d.empty().append(utils.renderTpl(template, renderObj));
@@ -151,7 +151,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
                         if (rec) {
                             vals[_v] = rec;
                             labels.push(rec.get(c.labelField));
-                            $('#' + me.getId() + '-' + rec.get('id')).addClass('sel');
+                            $('#' + me.getId() + '-' + rec.getId()).addClass('sel');
                         }
                     });
                     d.find('#' + me.getId() + '-currentLabel').html(labels.join(','));
