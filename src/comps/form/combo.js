@@ -7,6 +7,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             labelField: '',
             valueField: '',
             value: '',
+            height: undefined,
             multiSel: false,
             width: 0
         },
@@ -35,7 +36,7 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             }
         });
 
-        d.find('.dropdown-menu li').on('click', function(e) {
+        d.on('click', '.dropdown-menu li', function(e) {
             var me = $(this),
                 value = me.attr('data-value');
             tonggleSel(_combo, value);
@@ -86,7 +87,8 @@ define(['eui/utils/utils', 'eui/data/loader', 'eui/base/CompBase', 'eui/core/clz
             renderObj = {
                 comboid: _combo.getId(),
                 multi: c.multiSel ? 'multi' : '',
-                list: []
+                list: [],
+                height: c.height
             };
 
         $.each(records, function(i, rec) {

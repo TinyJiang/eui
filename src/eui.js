@@ -14,6 +14,8 @@ define(['eui/utils/utils',
         'eui/comps/paging/paging',
         'eui/comps/form/combo',
         'eui/comps/form/datetime',
+        'eui/comps/form/condition',
+        'eui/comps/form/conditiongroup',
         'eui/comps/window/window',
         'eui/comps/tab/tab'
     ],
@@ -28,6 +30,8 @@ define(['eui/utils/utils',
         paging,
         combo,
         datetime,
+        condition,
+        conditiongroup,
         window,
         tab
     ) {
@@ -65,6 +69,8 @@ define(['eui/utils/utils',
          */
         combo.register(eui.prototype);
         datetime.register(eui.prototype);
+        condition.register(eui.prototype);
+        conditiongroup.register(eui.prototype);
         /**
          * @namespace window
          * @memberof comps

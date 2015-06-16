@@ -1,0 +1,21 @@
+{
+    "data": [{
+        "attribute": null,
+        "desc": "",
+        "id": "8a8804cf3b6988e3013b69e5aaba0025",
+        "label": "男",
+        "name": "male",
+        "order": "0",
+        "parentid": "8a8804cf3b6988e3013b69e347e60019",
+        "value": "1"
+    }, {
+        "attribute": null,
+        "desc": "",
+        "id": "8a8804cf3b6988e3013b69e572fa0023",
+        "label": "女",
+        "name": "female",
+        "order": "1",
+        "parentid": "8a8804cf3b6988e3013b69e347e60019",
+        "value": "0"
+    }]
+}

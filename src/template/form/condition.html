@@ -1,0 +1,13 @@
+<table class="table fixedHeight" style="margin-bottom:0px;">
+	<tr>
+		<td style="width:{{labelWidth}}px;text-align:{{labelAlign}}"><label class="condition-label">{{label}}</label></td>
+		<td>
+			<div class="condition-inner-cnt">
+			{{#datas}}
+			<span class="condition {{isAll}}" data-value="{{value}}" id="{{id}}">{{label}}</span>
+			{{/datas}}
+			<span class="glyphicon glyphicon-chevron-down {{showMore}}" title="更多"></span>
+			</div>
+		</td>
+	</tr>
+</div>

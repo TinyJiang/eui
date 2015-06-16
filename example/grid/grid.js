@@ -4,7 +4,8 @@ define(['eui/eui'], function(eui) {
         timeout: 30000,
         type: 'POST',
         dataType: 'json',
-        dataPath: 'data.data'
+        dataPath: 'data.data',
+        events: {}
     });
     var paging = eui.paging({
         dom: $('#paging'),

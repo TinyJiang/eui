@@ -59,7 +59,7 @@ define(['eui/utils/utils'], function(utils) {
             _getCache: function(type, id) {
                 var cache = this._getCacheObj()[type];
                 if (utils.isDefined(cache)) {
-                    if (utils.isDefined(id) && id.length) {
+                    if (utils.isDefined(id)) {
                         return cache[id]
                     } else {
                         return cache
@@ -74,7 +74,7 @@ define(['eui/utils/utils'], function(utils) {
              */
             _clearCache: function(type) {
                 var cache = this._getCacheObj();
-                if (utils.isDefined(type) && type.length) {
+                if (utils.isDefined(type)) {
                     cache[type] = {};
                 } else {
                     cache = {};

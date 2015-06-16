@@ -54,6 +54,11 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.eui-disabled{
+	color: #C8D0D8!important;
+	cursor: not-allowed!important;
+}
 /* ------------common---------------- */
 
 /* ------------grid---------------- */
@@ -85,6 +90,7 @@
 	text-overflow:ellipsis; 
 	-o-text-overflow:ellipsis; 
 	overflow: hidden; 
+	display: inline-block;
 }
 
 
@@ -279,6 +285,8 @@
 
 .eui-combo .input-group > ul{
 	width: 100%;
+	max-height: 300px;
+	overflow: auto;
 }
 .eui-combo .input-group > ul > li > a > i {
 	display: none;
@@ -305,4 +313,107 @@
 }
 
 .eui-window .modal-content > .modal-body{
+}
+
+
+/* ------------condition---------------- */
+.eui-condition .condition-label{
+	padding: 3px;
+}
+
+.eui-condition .condition{
+	padding: 3px 10px;
+	margin:0px 10px;
+	border-radius: 3px;
+	margin-bottom: 4px;
+	display: inline-block;
+	cursor: pointer;
+	color: #000;
+	text-decoration: none !important;
+}
+
+.eui-condition-disabled .condition{
+	color: #C8D0D8!important;
+	cursor: not-allowed!important;
+}
+
+.eui-condition .condition:hover{
+	color: #5dbef5;
+}
+
+.eui-condition-disabled .condition:hover{
+	color: #C8D0D8!important;
+}
+
+.eui-condition span.sel {
+	background: #5dbef5;
+	color: #fff;
+}
+
+.eui-condition span.sel:hover{
+	color: #fff;
+}
+
+.eui-condition .fixedHeight .condition-inner-cnt{
+	height:26px;
+	overflow: hidden;
+}
+
+.eui-condition .table td{
+	padding: 10px 10px 5px 10px;
+	border-top: none;
+	border-bottom: 1px dashed #ccc;
+}
+
+
+.eui-condition .condition-inner-cnt{
+	position: relative;
+}
+
+.eui-condition .condition-inner-cnt .glyphicon{
+	position: absolute;
+	cursor: pointer;
+	top:6px;
+	right: 0px;
+}
+
+.eui-condition .condition-inner-cnt .glyphicon:hover{
+	color: #5dbef5;
+}
+.eui-condition-group{
+}
+
+.eui-condition-group-collapsed{
+	border-top: 1px dashed #ccc;
+}
+.eui-condition-group-collapsed .eui-condition-group-inner-cnt{
+	height: 0px;
+  	overflow: hidden;
+}
+
+
+
+.eui-condition-group .slide-icon-cnt{
+	width:100%;
+	text-align: center;
+}
+
+.eui-condition-group .slide-icon-cnt button{
+	border:1px dashed #ccc;
+	border-top:1px solid #fff;
+	background: #fff;
+	margin-top: -1px;
+	display: none;
+}
+
+.eui-condition-group .slide-icon-cnt .collapse-btn{
+	display: inline-block;
+}
+
+.eui-condition-group-collapsed .slide-icon-cnt .expand-btn{
+	display: inline-block;
+}
+
+.eui-condition-group-collapsed .slide-icon-cnt .collapse-btn{
+	display: none;
 }
