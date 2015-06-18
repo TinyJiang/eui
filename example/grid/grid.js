@@ -107,7 +107,8 @@ define(['eui/eui'], function(eui) {
             header: 'lv1',
             index: 'level1',
             align: 'center',
-            width: 100
+            width: 100,
+            editable: false
         }, {
             header: 'lv2',
             align: 'center',

@@ -27,10 +27,15 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
             var editor = _editor._getCache(CACHE_KEYS.EDITORDOM),
                 grid = _editor[CACHE_KEYS.GRID];
             if (editor && editor.length) {
-                var inputs = editor.find('input');
+                var inputs = editor.find('td input');
+                var spans = editor.find('td span');
                 $.each(inputs, function(i, input) {
                     input = $(input);
                     input.val(record.get(input.attr('data-index')) || '')
+                });
+                $.each(spans, function(i, span) {
+                    span = $(span);
+                    span.html(record.get(span.attr('data-index')) || '')
                 });
             }
         };
