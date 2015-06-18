@@ -1,0 +1,32 @@
+{
+    "data": [{
+        "level2": "",
+        "level1": "其他互联网业务"
+    }, {
+        "level2": "",
+        "level1": "通话质量"
+    }, {
+        "level2": "",
+        "level1": "互联网类业务"
+    }, {
+        "level2": "4G",
+        "level1": ""
+    }, {
+        "level2": "其他互联网业务",
+        "level1": ""
+    }, {
+        "level2": "",
+        "level1": "话音基本业务"
+    }, {
+        "level2": "互联互通",
+        "level1": ""
+    }, {
+        "level2": "漫游障碍",
+        "level1": ""
+    }, {
+        "level2": "通话质量",
+        "level1": ""
+    }],
+    "msg": "",
+    "success": "true"
+}

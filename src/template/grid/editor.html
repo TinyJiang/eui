@@ -1,4 +1,4 @@
-<div class="eui-grid-editor euigrid">
+<div class="eui-grid-editor euigrid" id="{{id}}">
 	<table class="table" style="margin-bottom:0px">
 		<tr>
 			<td>
@@ -7,7 +7,7 @@
 			{{#columns}}
 			<td>
 				<div style="width:{{width}}px;">
-					<input class = "{{showEdit}}" id="{{id}}" style="text-align: {{align}};" value="{{&value}}"/>
+					<input class = "{{showEdit}}" data-index="{{index}}" id="{{id}}" style="text-align: {{align}};" value="{{&value}}"/>
 					<span class = "{{hideEdit}}">{{&value}}</span>
 				</div>
 			</td>

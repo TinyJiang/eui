@@ -27,8 +27,10 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
             var editor = _editor._getCache(CACHE_KEYS.EDITORDOM),
                 grid = _editor[CACHE_KEYS.GRID];
             if (editor && editor.length) {
-                record.forEach(function(k, v) {
-                    $('#' + grid.getId() + '-editor-' + k).val(v);
+                var inputs = editor.find('input');
+                $.each(inputs, function(i, input) {
+                    input = $(input);
+                    input.val(record.get(input.attr('data-index')) || '')
                 });
             }
         };
@@ -47,7 +49,7 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                     if (name == 'submit') {
                         $.each(editor.find('td input'), function(i, input) {
                             input = $(input);
-                            record.set(input.attr('id').substr(grid.getId().length + 8), input.val());
+                            record.set(input.attr('data-index'), input.val());
                         })
                         /**
                          * @event editcomplete
@@ -66,6 +68,7 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
             grid.on('cellclick', function(cellData, e) {
                 var tr, columns, record, editor, disabledColumns = _editor._getCache(CACHE_KEYS.DISABLEDCOLUMNS),
                     renderObj = {
+                        id: _editor.getId(),
                         columns: []
                     };
                 if (_editor.isEnabled()) {
@@ -80,8 +83,9 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/utils/utils', 'eui/core/register
                             columns = $.extend([], grid.getConf().dataColumns);
                             $.each(columns, function(i, c) {
                                 renderObj.columns.push({
-                                    id: grid.getId() + '-editor-' + c.index,
+                                    id: _editor.getId() + '-' + c.index,
                                     value: record.get(c.index),
+                                    index: c.index,
                                     align: c.align,
                                     width: c.width,
                                     showEdit: disabledColumns[c.index] ? 'hide' : '',

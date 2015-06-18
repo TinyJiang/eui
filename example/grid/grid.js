@@ -84,6 +84,39 @@ define(['eui/eui'], function(eui) {
         limit: 20
     });
 
+    var editor2 = eui.grideditor({
+        enabled: false,
+        events: {
+            editcomplete: function(record) {}
+        }
+    });
+
+
+    var grid2 = eui.grid({
+        dom: $('#tb2'),
+        multiSel: true,
+        loader: eui.loader({
+            url: 'grid2.json',
+            timeout: 30000,
+            type: 'POST',
+            dataType: 'json',
+            dataPath: 'data',
+            events: {}
+        }),
+        columns: [{
+            header: 'lv1',
+            index: 'level1',
+            align: 'center',
+            width: 100
+        }, {
+            header: 'lv2',
+            align: 'center',
+            index: 'level2',
+            flex: 1
+        }],
+        plugins: [editor2]
+    });
+    grid2.getLoader().load();
 
     $('#getCurrentSel').on('click', function() {
         console.log(grid.getCurrentSel());
@@ -91,6 +124,7 @@ define(['eui/eui'], function(eui) {
 
     $('#startEdit').on('click', function() {
         editor.enable()
+        editor2.enable()
     });
 
     $('#submitEdit').on('click', function() {
@@ -98,5 +132,9 @@ define(['eui/eui'], function(eui) {
         console.log(changed);
         loader.clearChanged();
         editor.disable();
+
+
+
+        editor2.disable();
     });
 })
