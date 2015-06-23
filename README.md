@@ -10,45 +10,14 @@ eui是`事件驱动`的bootstrap前端组件库。
 ---
 
 ## BUGS AND FEATURES
-在[ISSUES](http://10.8.132.221:9090/baseframe/eui/issues)提交问题。
+在ISSUES提交问题。
 
 ---
 
 ## QUICK START
-1. 在jsp中依次加入增加jquery，bootstrap，fontawesome，eui依赖
+1. eui需要全局依赖jquery，bootstrap，fontawesome
 2. 定义data－main的js路径
 3. 入口js中eui引用id为"eui/eui"
-
-
-```	html
-
-<%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-<%
-	response.setHeader("X-UA-Compatible", "IE=edge");
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<%@ include file="/common/lib.jsp"%>
-<%@ include file="/common/bootstrap.jsp"%>
-<%@ include file="/common/fontawesome/fontawesome4.3.0.jsp"%>
-<%@ include file="/common/eui.jsp"%>
-<c:set var="mainJs" value="${ctx}/tree" />
-<%@ include file="/common/require.jsp"%>
-<style type="text/css">
-	.tb{
-		height:300px;
-		width:300px;
-	}
-</style>
-</head>
-<body>
-	<div class="tb" id="tb"></div>
-</body>
-</html>
-
-```
 
 
 ``` javascript
