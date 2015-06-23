@@ -79,7 +79,7 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                     children = record.get('children'),
                     leaf = record.get('leaf');
                 if (($.type(leaf) == 'boolean' && leaf) || ('true' == leaf)) {
-                    me.isLeaf = false;
+                    me.isLeaf = true;
                 } else if (children && children.length) {
                     me.isLeaf = false;
                 } else {
