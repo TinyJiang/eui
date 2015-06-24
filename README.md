@@ -18,7 +18,7 @@ eui是`事件驱动`的bootstrap前端组件库。
 1. eui需要全局依赖jquery，bootstrap，fontawesome
 2. 定义data－main的js路径
 3. 入口js中eui引用id为"eui/eui"
-
+asdf
 
 ``` javascript
 
