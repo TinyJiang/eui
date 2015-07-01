@@ -7,7 +7,7 @@
         "fullname": "部门1",
         "children": [{
             "id": "user1",
-            "name": "user1",
+            "name": "user1111",
             "fullname": "员工1"
         }, {
             "id": "user2",

@@ -10,6 +10,7 @@ define(['eui/eui'], function(eui) {
         });
         var combo = eui.combo({
             dom: $('#combo'),
+            id: 'combo',
             multiSel: true,
             labelField: 'label',
             valueField: 'value',
