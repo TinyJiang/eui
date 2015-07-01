@@ -5,7 +5,10 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
         var defaultConf = {
                 labelIndex: 'label',
                 multiSel: false,
-                autoExpand: false
+                autoExpand: false,
+                nodeRender: function(v) {
+                    return v
+                }
             },
             CACHE_KEYS = {
                 SELECTIONS: 'SELECTIONS',
@@ -20,6 +23,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
                 autoExpand: conf.autoExpand,
                 multiSel: conf.multiSel,
                 tree: _tree,
+                nodeRender: conf.nodeRender,
                 events: {
                     expand: function(node) {
                         /**
@@ -191,6 +195,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
              * @param {String} conf.labelIndex label字段
              * @param {Boolean} [conf.multiSel=false] 是否多选
              * @param {Boolean} [conf.autoExpand=false] 是否自动展开
+             * @param {Function} [conf.nodeRender=function(v){return v}] label渲染函数
              * @since 0.1
              * @author JJF
              */

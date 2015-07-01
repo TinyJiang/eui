@@ -7,6 +7,8 @@ define(['eui/eui'], function(eui) {
         dataType: 'json',
         dataPath: 'data'
     });
+
+    loader.on('load', function(records) {})
     var tree = eui.tree({
         dom: $('#tb'),
         multiSel: true,
