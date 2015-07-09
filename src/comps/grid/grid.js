@@ -180,6 +180,12 @@ define(['eui/utils/exception', 'eui/utils/utils', 'eui/data/loader', 'eui/base/C
                     var fn = renderFn[k];
                     $('#' + line.id + '-' + k + ' > div').html(fn ? fn(v) : v);
                 });
+                record.on('setdata', function(data) { //mv绑定
+                    record.forEach(function(k, v) {
+                        var fn = renderFn[k];
+                        $('#' + line.id + '-' + k + ' > div').html(fn ? fn(v) : v);
+                    });
+                });
             });
             var html = Mustache.render(template, renderObj);
             d.empty().append($(html));

@@ -169,7 +169,9 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
                 return [c]
             },
             proto: {
-
+                goPage: function(index) {
+                    goPage(this, index);
+                }
             }
         });
         return register(Paging, {
