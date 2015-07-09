@@ -171,6 +171,9 @@ define(['eui/base/UiBase', 'eui/core/clz', 'eui/core/register', 'eui/utils/utils
             proto: {
                 goPage: function(index) {
                     goPage(this, index);
+                },
+                getCurrentPage: function() {
+                    return this._getCache(CACHE_KEYS.CURRENT);
                 }
             }
         });
