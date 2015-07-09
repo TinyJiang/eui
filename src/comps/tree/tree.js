@@ -195,7 +195,7 @@ define(['eui/core/clz', 'eui/base/CompBase', 'eui/utils/utils', 'eui/data/loader
              * @param {String} conf.labelIndex label字段
              * @param {Boolean} [conf.multiSel=false] 是否多选
              * @param {Boolean} [conf.autoExpand=false] 是否自动展开
-             * @param {Function} [conf.nodeRender=function(v){return v}] label渲染函数
+             * @param {Function} [conf.nodeRender=function(v,record){return v}] label渲染函数
              * @since 0.1
              * @author JJF
              */

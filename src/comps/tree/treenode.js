@@ -15,7 +15,7 @@ define(['eui/base/UiBase', 'eui/utils/utils', 'eui/core/clz', 'eui/data/record',
                 id: node.getId(),
                 multiSel: c.multiSel ? 'multiSel' : 'singleSel',
                 type: node.isLeaf ? 'file' : 'folder',
-                label: c.nodeRender(record.get(c.labelIndex))
+                label: c.nodeRender(record.get(c.labelIndex), record)
             }));
 
             var childrenCnt = dom.children('.children-cnt');
